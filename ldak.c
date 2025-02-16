@@ -73,9 +73,9 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////
 
 #define MKL   0
-// 1 to compile with mkl, 0 to compile without mkl, 2 to compile with AOCL
+   // 1 to compile with mkl, 0 to compile without mkl, 2 to compile with AOCL
 #define MET   0 // 0 for qsopt, 1 for glpk (for glpk, edit compilation line to include
-// source/glpk.h)
+    // source/glpk.h)
 //(changing MKL changes some lines just below, and a few in defaults.c)
 
 // library includes
@@ -522,6 +522,5 @@ return (0);
 } // end of main
 
 ///////////////////////////
-
 
 
