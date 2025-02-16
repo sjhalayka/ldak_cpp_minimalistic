@@ -97,7 +97,7 @@ int  i;
     wn[i] = dn / m1;
   }
 }
-double  rnorm_safe() // this is my own version of RNOR and nfix (below) that;
+double  rnorm_safe() // this is my own version of RNOR and nfix (below) that
                     // avoids using global static variables
 {
 const  float r = 3.442620f;
