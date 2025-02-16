@@ -492,7 +492,7 @@ if (use_data == 1 || use_data == 2 ||
     {
       // printf("Warning, the predictor weightings have been set to one
       // (equivalent to adding  "--ignore-weights YES ");if you wish to specify
-      // different weightings, use  "--weights " n n")
+      // different weightings, use  "--weights " n n") 
       ignoreweights = 1;
     } else // weightings are not used, so set to one
     {

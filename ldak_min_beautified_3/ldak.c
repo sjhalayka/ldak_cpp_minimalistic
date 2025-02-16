@@ -52,7 +52,7 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 // you may have to add --framework accelerate to this this command, and/or first
 // run xcode-select --install
 ///////////////////////////
-#define MKL   0
+#define MKL   0                                                                  
    // 1 to compile with mkl, 0 to compile without mkl, 2 to compile with AOCL
 #define MET   0 // 0 for qsopt, 1 for glpk (for glpk, edit compilation line to include
     // source/glpk.h)
@@ -74,12 +74,12 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <zlib.h>
 struct sorting_double {
-double  value;
-int  index;
+  double value;
+  int index;
 };
 struct sorting_string {
-char  *ptr;
-int  index;
+  char *ptr;
+  int index;
 };
 #include "mt19937.c"
 #include "norm.c"
@@ -101,7 +101,7 @@ int main(int argc, const char *argv[]) {
          "Disequilibrium Adjusted Kinships and Loads More\nVersion 6 - Help "
          "pages at www.dougspeed.com\n");
   time_t starttime, endtime, midtime;
-char  timestring[500];
+  char timestring[500];
   // get start time, then convert to a string (and remove  n from end)
   time(&starttime);
   sprintf(timestring, "%s", ctime(&starttime));

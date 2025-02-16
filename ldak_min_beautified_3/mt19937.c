@@ -40,9 +40,9 @@ OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 #define MATRIX_A 0x9908b0dfUL   /* constant vector a */
 #define UPPER_MASK 0x80000000UL /* most significant w-r bits */
 #define LOWER_MASK 0x7fffffffUL /* least significant r bits */
-static unsigned  long   mt[N];
+static unsigned long mt[N];
 /* the array for the state vector  */
-static int   mti = N + 1;
+static int mti = N + 1;
 /* mti==N+1 means mt[N] is not initialized */
 /* initializes mt[N] with a seed */
 void init_genrand(unsigned long s) {
@@ -62,9 +62,7 @@ void init_genrand(unsigned long s) {
 /* key_length is its length */
 /* slight change for C++, 2004/2/26 */
 void init_by_array(unsigned long init_key[], int key_length) {
-int  i;
-int  j;
-int  k;
+  int i, j, k;
   init_genrand(19650218UL);
   i = 1;
   j = 0;
@@ -100,11 +98,11 @@ assuring non-zero initial array */
 }
 /* generates a random number on [0,0xffffffff]-interval */
 unsigned long genrand_int32(void) {
-unsigned  long y;
+  unsigned long y;
   static unsigned long mag01[2] = {0x0UL, MATRIX_A};
   /* mag01[x] = x * MATRIX_A  for x=0,1 */
   if (mti >= N) { /* generate N words at one time */
-int  kk;
+    int kk;
     if (mti == N + 1)       /* if init_genrand() has not been called, */
         init_genrand(5489UL);
 /* a default initial seed is used */
@@ -149,15 +147,14 @@ double genrand_real3(void) {
 }
 /* generates a random number on [0,1) with 53-bit resolution*/
 double genrand_res53(void) {
-unsigned  long a = genrand_int32() >> 5;
-unsigned  b = genrand_int32() >> 6;
+  unsigned long a = genrand_int32() >> 5, b = genrand_int32() >> 6;
   return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
 }
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
 /*
 int main(void)
 {
-int  i;
+    int i;
     unsigned long init[4]={0x123, 0x234, 0x345, 0x456}, length=4;
     init_by_array(init, length);
     printf("1000 outputs of genrand_int32()\n");

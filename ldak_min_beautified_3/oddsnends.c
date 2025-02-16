@@ -15,8 +15,7 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 // Very simple functions (mainly)
 ///////////////////////////
 void print_top(double *mat, int a, int b, int c) {
-int  i;
-int  j;
+  int i, j;
   for (i = 0;i < a;i++) {;
     for (j = 0;j < b;j++) {;
       printf("%f ", mat[i + j * c]);
@@ -26,10 +25,9 @@ int  j;
 }
 ///////////////////////////
 int countrows_old(char *filename) {
-int  count;
-int  flag;
-char  readchar;
-FILE  *input;
+  int count, flag;
+  char readchar;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -79,10 +77,9 @@ FILE  *input;
 } // end of countrows_old
 ////////
 int countrows(char *filename) {
-int  count;
-char  readchar;
-char  readchar2;
-FILE  *input;
+  int count;
+  char readchar, readchar2;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -133,12 +130,9 @@ FILE  *input;
 } // end of countrows
 ////////
 int countrows_plus(char *filename, int ncols) {
-int  count;
-int  count2;
-char  readchar;
-char  readchar2;
-char  readchar3;
-FILE  *input;
+  int count, count2;
+  char readchar, readchar2, readchar3;
+  FILE *input;
   // open file (have already checked it is not empty)
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
@@ -194,10 +188,9 @@ FILE  *input;
 } // end of countrows_plus
 ////////
 int countrows_min(char *filename, int min) {
-int  count;
-char  readchar;
-char  readchar2;
-FILE  *input;
+  int count;
+  char readchar, readchar2;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -251,10 +244,9 @@ FILE  *input;
 } // end of countrows_min
 ////////
 int countels(char *filename) {
-int  count;
-char  readchar;
-char  readchar2;
-FILE  *input;
+  int count;
+  char readchar, readchar2;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -285,10 +277,9 @@ FILE  *input;
 } // end of countels
 ////////
 int countcols(char *filename) {
-int  count;
-char  readchar;
-char  readchar2;
-FILE  *input;
+  int count;
+  char readchar, readchar2;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -322,11 +313,9 @@ FILE  *input;
 } // end of countcols
 ////////
 int checkcols(char *filename, int ncols) {
-int  count;
-int  count2;
-char  readchar;
-char  readchar2;
-FILE  *input;
+  int count, count2;
+  char readchar, readchar2;
+  FILE *input;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n", filename);
     exit(1);
@@ -374,14 +363,9 @@ void copy_string(char **stra, int a, char *strb) {
 ////////
 void read_strings(char *strfile, char **str, int length, int *indexer, int col,
                   int head) {
-int  j;
-int  k;
-int  count;
-int  found;
-int  want;
-char  readchar;
-char  *rs;
-FILE  *input;
+  int j, k, count, found, want;
+  char readchar, *rs;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   count = countrows(strfile) - head;
   if (count < 0) {
@@ -456,14 +440,9 @@ FILE  *input;
 void read_values(char *valfile, double *values, int length, int *indexer,
                  int col, int head, int miss) {
   // miss=0 - missing not allowed, miss=1 - missing allowed
-int  j;
-int  k;
-int  count;
-int  found;
-int  want;
-char  readchar;
-char  *rs;
-FILE  *input;
+  int j, k, count, found, want;
+  char readchar, *rs;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   count = countrows(valfile) - head;
   if (count < 0) {
@@ -553,14 +532,9 @@ FILE  *input;
 void read_integers(char *valfile, int *values, int length, int *indexer,
                    int col, int head, int miss) {
   // miss=0 - missing not allowed, miss=1 - missing allowed
-int  j;
-int  k;
-int  count;
-int  found;
-int  want;
-char  readchar;
-char  *rs;
-FILE  *input;
+  int j, k, count, found, want;
+  char readchar, *rs;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   count = countrows(valfile) - head;
   if (count < 0) {
@@ -649,14 +623,9 @@ FILE  *input;
 void read_long(char *valfile, size_t *values, int length, int *indexer, int col,
                int head, int miss) {
   // miss=0 - missing not allowed, miss=1 - missing allowed
-int  j;
-int  k;
-int  count;
-int  found;
-int  want;
-char  readchar;
-char  *rs;
-FILE  *input;
+  int j, k, count, found, want;
+  char readchar, *rs;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   count = countrows(valfile) - head;
   if (count < 0) {
@@ -746,15 +715,9 @@ FILE  *input;
 void read_ids(char *idsfile, char **ids1, char **ids2, char **ids3, int length,
               int *indexer, int head, int shift) {
   // read ids from columns shift+1 and shift+2
-int  i;
-int  j;
-int  count;
-int  found;
-int  want;
-char  readchar;
-char  *rs1;
-char  *rs2;
-FILE  *input;
+  int i, j, count, found, want;
+  char readchar, *rs1, *rs2;
+  FILE *input;
   rs1 = malloc(sizeof(char) * 10000000);
   rs2 = malloc(sizeof(char) * 10000000);
   count = countrows(idsfile) - head;
@@ -837,19 +800,11 @@ FILE  *input;
 void read_ids_bgen(char *bgenfile, char **ids1, char **ids2, char **ids3,
                    int length, int *indexer, int type) {
   // type=0 - quiet, type=1, noisy
-int  i;
-int  count;
-int  count2;
-int  found;
-int  want;
-int  mark;
-char  *rs;
-char  **ids1temp;
-char  **ids2temp;
-char  **ids3temp;
-short  idlen;
-int  hblock;
-FILE  *input;
+  int i, count, count2, found, want, mark;
+  char *rs, **ids1temp, **ids2temp, **ids3temp;
+  short idlen;
+  int hblock;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   ids1temp = malloc(sizeof(char *) * length);
   ids2temp = malloc(sizeof(char *) * length);
@@ -1001,8 +956,7 @@ void print_scaling(double power, int hwestand) {
 ////////
 void print_qc(double minmaf, double maxmaf, double minvar, double minobs,
               double mininfo, int genprobs, int num_files) {
-int  count;
-int  count2;
+  int count, count2;
   count = (minmaf != -9999) + (maxmaf != -9999) + (minvar != -9999) +
           (minobs != -9999) + (mininfo != -9999);
   if (count == 0) {
@@ -1067,8 +1021,8 @@ int  count2;
 }
 ///////////////////////////
 int just_check(char *filename) {
-char  filename2[500];
-struct  stat statstruct;
+  char filename2[500];
+  struct stat statstruct;
   if (strcmp(filename, "blank") != 0) {
     sprintf(filename2, "%s/", filename);
     if (stat(filename2, &statstruct) == 0) {
@@ -1084,8 +1038,8 @@ struct  stat statstruct;
 }
 ////////
 int append_check(char *filename, char *filename2, char *workdir) {
-char  filename3[500];
-struct  stat statstruct;
+  char filename3[500];
+  struct stat statstruct;
   if (strcmp(filename2, "blank") != 0) // prefix with workdir (unless absolute),
                                        // then see if file/folder already exists
   {
@@ -1132,10 +1086,9 @@ int fill_names(char **datastems, char **bimstems, char **famstems, int k,
 int check_head_ids(char *filename, int type)
 // type=0 - keep quiet, type=1 - advise
 {
-int  head;
-char  readstring[500];
-char  readstring2[500];
-FILE  *input;
+  int head;
+  char readstring[500], readstring2[500];
+  FILE *input;
   head = 0;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n\n", filename);
@@ -1159,9 +1112,9 @@ FILE  *input;
 int check_head(char *filename, char *findstring, char *findstring2, int type)
 // type=0 - keep quiet, type=1 - advise
 {
-int  head;
-char  readstring[500];
-FILE  *input;
+  int head;
+  char readstring[500];
+  FILE *input;
   head = 0;
   if ((input = fopen(filename, "r")) == NULL) {
     printf("Error opening %s\n\n", filename);
@@ -1183,12 +1136,9 @@ FILE  *input;
 }
 ////////
 int find_head(char *findstring, char *filename, int length) {
-int  j;
-int  k;
-int  count;
-char  **readlist;
-char  *rs;
-FILE  *input;
+  int j, k, count;
+  char **readlist, *rs;
+  FILE *input;
   rs = malloc(sizeof(char) * 10000000);
   readlist = malloc(sizeof(char *) * length);
   if ((input = fopen(filename, "r")) == NULL) {
@@ -1233,11 +1183,8 @@ int reduce_values(double *values, int length, int *keeppreds_use, int *chr,
                   double *infos, double *pvalues, int num_regs,
                   int **regindex) {
   // will always have preds, al1 and al2, but might not have others
-int  j;
-int  r;
-int  count;
-int  count2;
-int  *usedpreds;
+  int j, r, count, count2;
+  int *usedpreds;
   // will only use usedpreds if have regions
   usedpreds = malloc(sizeof(int) * length);
   count = 0;
@@ -1403,15 +1350,8 @@ double compute_info(double *data, float *p0, float *p1, int length,
   // calculate info = cov(data,truth)^2/var(data)var(truth)
   // probabilities will have been normalized (if necessary), so know p2=1-p0-p1
   // (unless value missing, when p0=p1=p2=0)
-int  i;
-int  indcount;
-double  sumd;
-double  sumt;
-double  meand;
-double  meant;
-double  vard;
-double  vart;
-double  vardt;
+  int i, indcount;
+  double sumd, sumt, meand, meant, vard, vart, vardt;
   // first get mean (data) and expected mean (truth) - use only non-missing inds
   sumd = 0;
   sumt = 0;
@@ -1490,7 +1430,7 @@ int check_copy(char **str, int i, char *name, char *mvalue, char *id1,
 }
 ///////////////////////////
 void rdata_warn(int length, int ns) {
-double  size;
+  double size;
   size = (double)length / 1024 * ns / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to store the region predictors requires %.1f Gb\n\n",
@@ -1501,7 +1441,7 @@ double  size;
 void kin_warn(int num_kins, int ns, int type, int flag)
 // flag=0 double, flag=1 float
 {
-double  size;
+  double size;
   if (flag == 0) {
     size = (double)num_kins * ns / 1024 * ns / 1024 * 8 / 1024;
   } else {
@@ -1517,7 +1457,7 @@ double  size;
 }
 ////////
 void eigen_warn(int ns) {
-double  size;
+  double size;
   size = (double)ns / 1024 * ns / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to store the eigen-decomposition requires %.1f Gb  sorry, "
@@ -1527,7 +1467,7 @@ double  size;
 }
 ////////
 void decomp_warn(int length) {
-double  size;
+  double size;
   size = (double)length / 1024 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to perform the decomposition requires %.1f Gb  sorry, "
@@ -1537,7 +1477,7 @@ double  size;
 }
 ////////
 void data_warn(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to process the data requires %.1f Gb  sorry this can not "
@@ -1547,7 +1487,7 @@ double  size;
 }
 ////////
 void data_warn2(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to process the data requires %.1f Gb  if this is too "
@@ -1557,7 +1497,7 @@ double  size;
 }
 ////////
 void data_warn3(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to process the data requires %.1f Gb  if this is too "
@@ -1567,14 +1507,14 @@ double  size;
 }
 ////////
 void anal_warn(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to perform the analysis requires %.1f Gb\n\n", size);
   }
 }
 void anal_warn2(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to perform the analysis requires %.1f Gb  if this is too "
@@ -1584,7 +1524,7 @@ double  size;
 }
 ////////
 void model_warn(int length1, int length2) {
-double  size;
+  double size;
   size = (double)length1 / 1024 * length2 / 1024 * 8 / 1024;
   if (size > 1) {
     printf("Warning, to store the heritability model requires %.1f Gb\n\n",
@@ -1595,12 +1535,8 @@ double  size;
 int binary_search(double fraction, int length, double *cumsum, int flag)
 // if flag=1, then must move down values
 {
-int  j;
-int  try_;
-int  lower;
-int  upper;
-int  count;
-double  value;
+  int j, try_, lower, upper, count;
+  double value;
   if (fraction < 0 || fraction > cumsum[length]) {
     printf(
         "Error, fraction (%f\n) is not between 0 and %f, please tell Doug\n\n",
@@ -1651,14 +1587,9 @@ double  value;
 int find_covar_numbers(char *covarnums, int *indexer, int max, char *covarfile)
 // convert numbers into indexes
 {
-int  j;
-int  count;
-int  offset;
-int  offset2;
-int  readint;
-int  prevint;
-char  readchar;
-char  prevchar;
+  int j, count, offset, offset2;
+  int readint, prevint;
+  char readchar, prevchar;
   if (covarnums[strlen(covarnums) - 1] == ',') {
     printf("Error, reading the argument to \"--covar-numbers\" (%s)  the final "
            "character can not be a comma\n\n",
@@ -1784,13 +1715,9 @@ char  prevchar;
 int find_covar_names(char *covarnames, int *indexer, int max, char *covarfile)
 // convert names into indexes
 {
-int  j;
-int  count;
-int  mark;
-int  mark2;
-char  readchar;
-char  readstring[500];
-FILE  *input;
+  int j, count, mark, mark2;
+  char readchar, readstring[500];
+  FILE *input;
   if (covarnames[strlen(covarnames) - 1] == ',') {
     printf("Error, reading the argument to \"--covar-names\" (%s)  the final "
            "character can not be a comma\n\n",

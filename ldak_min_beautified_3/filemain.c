@@ -23,20 +23,9 @@ void read_bimfile(char *bimfile, int *chr, char **preds, double *cm, double *bp,
 // flag=0 - positions must be in order, flag=1 - do not
 // exlong=0 - allowed long alleles, exlong=1 - not allowed
 {
-int  j;
-int  count;
-int  bcount;
-int  lcount;
-int  mcount;
-int  ncount;
-int  scount;
-char  *rc;
-char  *rs;
-char  *rm;
-char  *rbp;
-char  *ra1;
-char  *ra2;
-FILE  *input;
+  int j, count, bcount, lcount, mcount, ncount, scount;
+  char *rc, *rs, *rm, *rbp, *ra1, *ra2;
+  FILE *input;
   rc = malloc(sizeof(char) * 10000000);
   rs = malloc(sizeof(char) * 10000000);
   rm = malloc(sizeof(char) * 10000000);
@@ -230,27 +219,12 @@ void read_bimfile_bgen(char *bgenfile, int bgen_comp, int bgen_layout,
 // flag=0 - positions must be in order, flag=1 - do not
 // exlong=0 - allowed long alleles, exlong=1 - not allowed
 {
-int  j;
-int  k;
-int  count;
-int  count2;
-int  bcount;
-int  lcount;
-int  ncount;
-int  scount;
-int  tcount;
-char  *rc;
-char  *rs;
-char  *ra1;
-char  *ra2;
-char  *rr;
-short  idlen;
-short  readshort;
-int  offset;
-int  readint;
-int  allen;
-unsigned  int readuns;
-FILE  *input;
+  int j, k, count, count2, bcount, lcount, ncount, scount, tcount;
+  char *rc, *rs, *ra1, *ra2, *rr;
+  short idlen, readshort;
+  int offset, readint, allen;
+  unsigned int readuns;
+  FILE *input;
   rc = malloc(sizeof(char) * 10000000);
   rs = malloc(sizeof(char) * 10000000);
   ra1 = malloc(sizeof(char) * 10000000);
@@ -585,18 +559,10 @@ int read_genfile(char *genfile, char **preds, double *bp, char **along1,
 // flag=0 - positions must be in order, flag=1 - do not
 // exlong=0 - allowed long alleles, exlong=1 - not allowed
 {
-int  j;
-int  ncount;
-int  scount;
-int  lcount;
-int  size;
-char  *rs;
-char  *rs2;
-char  *rbp;
-char  *ra1;
-char  *ra2;
-char  *gzbuffer;
-gzFile  inputgz;
+  int j, ncount, scount, lcount, size;
+  char *rs, *rs2, *rbp, *ra1, *ra2;
+  char *gzbuffer;
+  gzFile inputgz;
   rs = malloc(sizeof(char) * 10000000);
   rs2 = malloc(sizeof(char) * 10000000);
   rbp = malloc(sizeof(char) * 10000000);
@@ -731,11 +697,10 @@ gzFile  inputgz;
 ///////////////////////////
 void read_bgen_headers(char *bgenfile, int *bgen_preds, int *bgen_samples,
                        int *bgen_comp, int *bgen_layout, int *bgen_ids) {
-char  magic[4];
-unsigned  char flags[4];
-int  offset;
-int  hblock;
-FILE  *input;
+  char magic[4];
+  unsigned char flags[4];
+  int offset, hblock;
+  FILE *input;
   if ((input = fopen(bgenfile, "rb")) == NULL) {
     printf("Error opening %s\n\n", bgenfile);
     exit(1);
@@ -814,20 +779,12 @@ void check_respfile(char *respfile, int *usedids, int num_samples,
 // type=0 - no missing allowed, type=1 - missing allowed, but exclude samples
 // missing all phenotypes
 {
-int  i;
-int  m;
-int  count;
-int  count2;
-int  count3;
-int  head;
-int  *founds;
-int  *indexer;
-int  *indexer2;
-char  **wantids;
-double  *resptemp;
-char  readchar;
-char  readstring[500];
-FILE  *input;
+  int i, m, count, count2, count3, head;
+  int *founds, *indexer, *indexer2;
+  char **wantids;
+  double *resptemp;
+  char readchar, readstring[500];
+  FILE *input;
   // want to tally how many responses present for each sample
   founds = malloc(sizeof(int) * num_samples);
   for (i = 0;i < num_samples;i++) {;
@@ -953,29 +910,14 @@ void read_respfile(char *respfile, double *resp, int ns, char **ids3,
 // type=0 - reading only one phenotye, type=1/2 - reading first/second of a pair
 // of phenotypes
 {
-int  i;
-int  m;
-int  count;
-int  count2;
-int  count3;
-int  indcount;
-int  head;
-int  n0;
-int  n1;
-int  n2;
-int  nm;
-int  nr;
-double  sum;
-double  sumsq;
-double  mean;
-double  var;
-int  *indexer;
-int  *indexer2;
-char  **wantids;
-double  *resptemp;
-char  readchar;
-char  readstring[500];
-FILE  *input;
+  int i, m, count, count2, count3, indcount, head;
+  int n0, n1, n2, nm, nr;
+  double sum, sumsq, mean, var;
+  int *indexer, *indexer2;
+  char **wantids;
+  double *resptemp;
+  char readchar, readstring[500];
+  FILE *input;
   // see which individuals are available
   head = check_head_ids(respfile, 0);
   count = countrows_plus(respfile, 2 + num_resps) - head;

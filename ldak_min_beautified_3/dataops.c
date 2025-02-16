@@ -16,13 +16,9 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////
 void open_datagz(gzFile *inputgz, char *datafile, int num_samples, int genskip,
                  int genheaders, int genprobs) {
-int  j;
-int  count;
-int  size;
-int  size2;
-char  readchar;
-char  readchar2;
-char  *gzbuffer;
+  int j, count, size, size2;
+  char readchar, readchar2;
+  char *gzbuffer;
   size = 30000000 + num_samples * (genprobs * 20 + (genprobs == 0) * 4);
   gzbuffer = malloc(sizeof(char) * size);
   // check size - open and read in until newline (or gzbuffer read)
@@ -109,10 +105,7 @@ void read_bed_wrapper(char *bedfile, double *data, double *centres,
                       int length, int *keeppreds, int num_samples,
                       int num_preds, double missingvalue, int *bedzeros,
                       int *bedones, int *bedtwos, int type, int maxthreads) {
-int  thread;
-int  threadstart;
-int  threadend;
-int  threadlength;
+  int thread, threadstart, threadend, threadlength;
   threadlength = (length - 1) / maxthreads + 1;
 #pragma omp parallel for private(thread, threadstart, threadend)  schedule(static, 1)
   for (thread = 0;thread < maxthreads;thread++) {;
@@ -137,11 +130,8 @@ int read_data_fly(char *datafile, int dtype, double *data, float **probs,
                   int genprobs, size_t *bgen_indexes, double missingvalue,
                   double threshold, double minprob, int nonsnp,
                   int maxthreads) {
-int  thread;
-int  threadstart;
-int  threadend;
-int  threadlength;
-float  ***threadprobs;
+  int thread, threadstart, threadend, threadlength;
+  float ***threadprobs;
   if (dtype == 1 || dtype == 2 || dtype == 3 ||
       dtype == 4) // can read in parallel
   {
@@ -218,14 +208,8 @@ void stand_data(double *data, double *centres, double *mults, double *sqdevs,
 // type=2 - standardize using provided centre and mult
 // type=3 - calc stats, then set missing to mean
 {
-int  i;
-int  j;
-int  indcount;
-double  sum;
-double  sumsq;
-double  mean;
-double  var;
-double  value;
+  int i, j, indcount;
+  double sum, sumsq, mean, var, value;
 #pragma omp parallel for private(j, sum, sumsq, indcount, i, mean, var, value) schedule(static)
   for (j = 0;j < length;j++) {;
     if (type == 0 || type == 1 ||
@@ -330,11 +314,9 @@ double  value;
 int extraction(int *usedpreds, int length, char **preds, int *chr,
                int *predorder, char *bpredfile, char *cpredfile, int onechr,
                char *onesnp, char *filename) {
-int  j;
-int  count;
-int  count2;
-int  *indexer;
-char  **wantpreds;
+  int j, count, count2;
+  int *indexer;
+  char **wantpreds;
   count = 0;
   if (strcmp(bpredfile, "blank") != 0) {
     count = countrows(bpredfile);
@@ -481,11 +463,9 @@ char  **wantpreds;
 ///////////////////////////
 void change_coding(double *data, char *al1, char *al2, int ns, int length,
                    int encoding, double missingvalue) {
-int  i;
-int  j;
-int  indcount;
-double  sum;
-char  readchar;
+  int i, j, indcount;
+  double sum;
+  char readchar;
   for (j = 0;j < length;j++) {;
     if (encoding == 2) // dominant - switch 1s for 2s
     {

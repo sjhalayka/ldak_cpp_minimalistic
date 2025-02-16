@@ -17,13 +17,13 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 void subset_bits(unsigned char *rowchars, unsigned char *rowchars2,
                  int num_samples_use, int *keepsamps) {
   for (int i = 0;i < num_samples_use;i++) {;
-int  i2 = keepsamps[i];
+    int i2 = keepsamps[i];
     // want to put position i of rowchars into position i2 of rowchars2
-const  int i_index = i / 4;
-const  int i_pos = 2 * (i % 4);
-const  int i2_index = i2 / 4;
-const  int i2_pos = 2 * (i2 % 4);
-const  int newbits = (rowchars[i2_index] >> i2_pos) & 3;
+    const int i_index = i / 4;
+    const int i_pos = 2 * (i % 4);
+    const int i2_index = i2 / 4;
+    const int i2_pos = 2 * (i2 % 4);
+    const int newbits = (rowchars[i2_index] >> i2_pos) & 3;
     rowchars2[i_index] &= ~(3 << i_pos);
     rowchars2[i_index] |= newbits << i_pos;
   }
@@ -32,25 +32,22 @@ const  int newbits = (rowchars[i2_index] >> i2_pos) & 3;
 void subset_bits_sparse(const int *__restrict rowchars,
                         int *__restrict rowchars2,
                         unsigned int *__restrict keep16s, int num_samples_use) {
-int  cur_block;
-int  new_word;
-int  new_shift;
-int  new_count;
-const  int final_block = num_samples_use / 16;
-const  int final_shift = num_samples_use % 16;
+  int cur_block, new_word, new_shift, new_count;
+  const int final_block = num_samples_use / 16;
+  const int final_shift = num_samples_use % 16;
   // process blocks of 16 samples
   cur_block = 0;
   new_word = 0;
   new_shift = 0;
   new_count = 0;
   while (1) {
-int  cur_ind = keep16s[cur_block];
+    int cur_ind = keep16s[cur_block];
     if (cur_ind) // will use some samples from this block
     {
-int  cur_word = rowchars[cur_block];
+      int cur_word = rowchars[cur_block];
       do {
         // find the position of the next sample to use
-int  next_bit = __builtin_ctz(cur_ind);
+        int next_bit = __builtin_ctz(cur_ind);
         // add the sample's value to new_word
         new_word |= ((cur_word >> (next_bit * 2)) & 3) << (new_shift * 2);
         new_shift++;
@@ -84,32 +81,29 @@ int  next_bit = __builtin_ctz(cur_ind);
 void subset_bits_block(const int *__restrict rowchars,
                        int *__restrict rowchars2,
                        unsigned int *__restrict keep16s, int num_samples_use) {
-int  cur_block;
-int  new_word;
-int  new_shift;
-int  new_count;
-const  int final_block = num_samples_use / 16;
-const  int final_shift = num_samples_use % 16;
+  int cur_block, new_word, new_shift, new_count;
+  const int final_block = num_samples_use / 16;
+  const int final_shift = num_samples_use % 16;
   // process blocks of 16 samples
   cur_block = 0;
   new_word = 0;
   new_shift = 0;
   new_count = 0;
   while (1) {
-int  cur_ind = keep16s[cur_block];
+    int cur_ind = keep16s[cur_block];
     if (cur_ind) // will use some samples from this block
     {
-int  cur_word = rowchars[cur_block];
+      int cur_word = rowchars[cur_block];
       do {
         // find the position of the next sample to use
-int  next_bit = __builtin_ctz(cur_ind);
+        int next_bit = __builtin_ctz(cur_ind);
         // get remainder of block
-int  cur_word_rest = (cur_word >> (next_bit * 2));
+        int cur_word_rest = (cur_word >> (next_bit * 2));
         // see how many we can read at once
-int  cur_ind_inv = (~cur_ind) >> next_bit;
-int  num_bits = __builtin_ctz(cur_ind_inv);
+        int cur_ind_inv = (~cur_ind) >> next_bit;
+        int num_bits = __builtin_ctz(cur_ind_inv);
         // how much space in new word
-int  new_limit = 16 - new_shift;
+        int new_limit = 16 - new_shift;
         // add all remaining values to new_word (might be adding too many)
         new_word |= cur_word_rest << (new_shift * 2);
         if (num_bits < new_limit) // update new_shift, then blank values we did
@@ -153,22 +147,21 @@ int  new_limit = 16 - new_shift;
 void convert_doubles(double *__restrict data, int num_samples_use,
                      unsigned char *__restrict rowchars,
                      const double bedbytes[32]) {
-int  i;
-int  i2;
+  int i, i2;
   i = 0;
   // process blocks of 4 samples
   while (i + 4 <= num_samples_use) {
-const  int fourbits1 = rowchars[i / 4] & 15;
+    const int fourbits1 = rowchars[i / 4] & 15;
     memcpy(data, bedbytes + 2 * fourbits1, sizeof(double) * 2);
     data += 2;
-const  int fourbits2 = (rowchars[i / 4] >> 4) & 15;
+    const int fourbits2 = (rowchars[i / 4] >> 4) & 15;
     memcpy(data, bedbytes + 2 * fourbits2, sizeof(double) * 2);
     data += 2;
     i += 4;
   }
   // load any remaining samples
   for (i2 = i;i2 < num_samples_use;i2++) {;
-const  int twobits = (rowchars[i2 / 4] >> (2 * (i2 % 4))) & 3;
+    const int twobits = (rowchars[i2 / 4] >> (2 * (i2 % 4))) & 3;
     memcpy(data, bedbytes + 2 * twobits, sizeof(double));
     data++;
   }
@@ -182,32 +175,14 @@ void read_bed_fast(char *bedfile, double *data, double *centres, double *mults,
                    int *bedtwos, int type) {
   // type=0 - got stats already, type=1 - get stats without standardizing,
   // type=2 - get stats with standardizing
-int  i;
-int  i2;
-int  j;
-int  first;
-int  last;
-int  mark;
-int  indcount;
-int  flag;
-int  c0;
-int  c1;
-int  c2;
-double  mean;
-double  var;
-double  value;
-int  num_16s;
-int  rowlength;
-int  rowlength2;
-int  rowlength3;
-int  nread;
-unsigned  int *keep16s;
-unsigned  char startchars[3];
-unsigned  *allchars;
-unsigned  *newchars;
-unsigned  *rowchars;
-double  *nulldoubles;
-FILE  *input;
+  int i, i2, j, first, last, mark, indcount, flag;
+  int c0, c1, c2;
+  double mean, var, value;
+  int num_16s, rowlength, rowlength2, rowlength3, nread;
+  unsigned int *keep16s;
+  unsigned char startchars[3], *allchars, *newchars, *rowchars;
+  double *nulldoubles;
+  FILE *input;
   // see whether necessary to subset samples
   flag = 0;
   for (i = 0;i < num_samples_use;i++) {;
@@ -321,7 +296,7 @@ FILE  *input;
     mark = keeppreds[j] - first;
     if (flag == 1) // general subset
     {
-      subset_bits((char *)allchars + mark * rowlength, (unsigned char*)newchars, num_samples_use,
+      subset_bits(allchars + mark * rowlength, newchars, num_samples_use,
                   keepsamps);
     }
     if (flag == 2) // sparse subset
@@ -398,19 +373,19 @@ FILE  *input;
     } // end of type!=0
     // convert to doubles
     if (mults[j] != -9999) {
-const  double v0 = (2 - centres[j]) * mults[j];
-const  double v1 = 0;
-const  double v2 = (1 - centres[j]) * mults[j];
-const  double v3 = (0 - centres[j]) * mults[j];
+      const double v0 = (2 - centres[j]) * mults[j];
+      const double v1 = 0;
+      const double v2 = (1 - centres[j]) * mults[j];
+      const double v3 = (0 - centres[j]) * mults[j];
       const double bedbytes[32] = {v0, v0, v1, v0, v2, v0, v3, v0, v0, v1, v1,
                                    v1, v2, v1, v3, v1, v0, v2, v1, v2, v2, v2,
                                    v3, v2, v0, v3, v1, v3, v2, v3, v3, v3};
       if (flag == 0) {
         convert_doubles(data + (size_t)j * num_samples_use, num_samples_use,
-                        (unsigned char* )allchars + mark * rowlength, bedbytes);
+                        allchars + mark * rowlength, bedbytes);
       } else {
         convert_doubles(data + (size_t)j * num_samples_use, num_samples_use,
-                        (unsigned char *) newchars, bedbytes);
+                        newchars, bedbytes);
       }
     } else {
       memcpy(data + (size_t)j * num_samples_use, nulldoubles,
@@ -430,20 +405,10 @@ void read_bed_full(char *bedfile, unsigned char **data_char,
                    int num_samples_use, int *keepsamps, int length,
                    int *keeppreds, int num_samples, int num_preds,
                    int maxthreads) {
-int  i;
-int  j;
-int  count;
-int  count2;
-int  rowlength;
-int  thread;
-int  threadstart;
-int  threadend;
-int  threadlength;
-int  *Mcurrent;
-unsigned  char startchars[3];
-unsigned  **Mrowchars;
-unsigned  twobits;
-FILE  **Minput;
+  int i, j, count, count2, rowlength;
+  int thread, threadstart, threadend, threadlength, *Mcurrent;
+  unsigned char startchars[3], **Mrowchars, twobits;
+  FILE **Minput;
   rowlength = (num_samples - 1) / 4 + 1;
   threadlength = (length - 1) / maxthreads + 1;
   Mcurrent = malloc(sizeof(int) * maxthreads);
@@ -558,21 +523,10 @@ FILE  **Minput;
 int read_bed_fly(char *bedfile, double *data, int num_samples_use,
                  int *keepsamps, int length, int *keeppreds, int num_samples,
                  int num_preds, double missingvalue) {
-int  i;
-int  j;
-int  first;
-int  last;
-int  mark;
-int  flag;
-int  num_16s;
-int  rowlength;
-int  rowlength2;
-int  rowlength3;
-int  nread;
-unsigned  int *keep16s;
-unsigned  char startchars[3];
-unsigned  *allchars;
-unsigned  *newchars;
+  int i, j, first, last, mark, flag;
+  int num_16s, rowlength, rowlength2, rowlength3, nread;
+  unsigned int *keep16s;
+  unsigned char startchars[3], *allchars, *newchars;
   const double bedbytes[32] = {2.0, 2.0,          missingvalue, 2.0,
                                1.0, 2.0,          0.0,          2.0,
                                2.0, missingvalue, missingvalue, missingvalue,
@@ -581,7 +535,7 @@ unsigned  *newchars;
                                1.0, 1.0,          0.0,          1.0,
                                2.0, 0.0,          missingvalue, 0.0,
                                1.0, 0.0,          0.0,          0.0};
-FILE  *input;
+  FILE *input;
   // see whether necessary to subset samples
   flag = 0;
   for (i = 0;i < num_samples_use;i++) {;
@@ -690,7 +644,7 @@ FILE  *input;
     mark = keeppreds[j] - first;
     if (flag == 1) // general subset
     {
-      subset_bits((unsigned char *) allchars + mark * rowlength, (unsigned char*)newchars, num_samples_use,
+      subset_bits(allchars + mark * rowlength, newchars, num_samples_use,
                   keepsamps);
     }
     if (flag == 2) // sparse subset
@@ -705,11 +659,11 @@ FILE  *input;
     }
     // convert to doubles
     if (flag == 0) {
-      convert_doubles((double*)data + (size_t)j * num_samples_use, num_samples_use,
-          (unsigned char*)allchars + mark * rowlength, bedbytes);
+      convert_doubles(data + (size_t)j * num_samples_use, num_samples_use,
+                      allchars + mark * rowlength, bedbytes);
     } else {
-      convert_doubles((double*)data + (size_t)j * num_samples_use, num_samples_use,
-          (unsigned char*)newchars, bedbytes);
+      convert_doubles(data + (size_t)j * num_samples_use, num_samples_use,
+                      newchars, bedbytes);
     }
   } // end of j loop
   fclose(input);
@@ -723,7 +677,7 @@ FILE  *input;
 /////////////////////
 void convert_probs(Bytef *uncompdata2, int num_samples, double *datap0,
                    double *datap1, char bits) {
-int  i;
+  int i;
   if (bits == 8) {
     for (i = 0;i < num_samples;i++) {;
       datap0[i] = ((double)(*(unsigned char *)(uncompdata2 + 2 * i))) / 255;
@@ -744,35 +698,16 @@ int read_bgen_fly(char *bgenfile, double *data, float **probs,
                   int *keeppreds, int num_samples, int num_preds,
                   size_t *bgen_indexes, double missingvalue, double threshold,
                   double minprob) {
-int  i;
-int  j;
-int  count;
-int  wcount;
-int  vcount;
-int  flag;
-double  prob0;
-double  prob1;
-double  prob2;
-double  value;
-double  unifrand;
-double  *datatemp;
-double  *datap0;
-double  *datap1;
+  int i, j, count, wcount, vcount, flag;
+  double prob0, prob1, prob2, value, unifrand;
+  double *datatemp, *datap0, *datap1;
   uLongf maxLen1, maxLen2a, maxLen2b, sourceLen, destLen;
   Bytef *compdata1, *uncompdata1, *compdata2, *uncompdata2;
-unsigned  char flags[4];
-short  readshort;
-int  hblock;
-int  bgen_comp;
-int  bgen_layout;
-int  readint;
-int  readint2;
-char  ploid1;
-char  ploid2;
-char  ploid3;
-char  phased;
-char  bits;
-FILE  *input;
+  unsigned char flags[4];
+  short readshort;
+  int hblock, bgen_comp, bgen_layout, readint, readint2;
+  char ploid1, ploid2, ploid3, phased, bits;
+  FILE *input;
   datatemp = malloc(sizeof(double) * num_samples);
   datap0 = malloc(sizeof(double) * num_samples);
   datap1 = malloc(sizeof(double) * num_samples);
@@ -1116,12 +1051,10 @@ int read_sped_fly(char *spedfile, double *data, int num_samples_use,
                   int *keepsamps, int start, int end, int *keeppreds,
                   int num_samples, int num_preds, double missingvalue,
                   double threshold, int nonsnp) {
-int  i;
-int  j;
-int  current;
-float  *rowfloats;
-double  value;
-FILE  *input;
+  int i, j, current;
+  float *rowfloats;
+  double value;
+  FILE *input;
   rowfloats = malloc(sizeof(float) * num_samples);
   if ((input = fopen(spedfile, "rb")) == NULL) {
     printf("Error opening %s\n\n", spedfile);
@@ -1195,8 +1128,8 @@ FILE  *input;
 } // end of read_sped_fly
 ////////
 float read_speed_size(char *speedfile) {
-float  size;
-FILE  *input;
+  float size;
+  FILE *input;
   if ((input = fopen(speedfile, "rb")) == NULL) {
     printf("Error opening %s\n\n", speedfile);
     exit(1);
@@ -1221,20 +1154,12 @@ void read_speed_full(char *speedfile, float *speedstarts, float *speedscales,
                      int num_samples_use, int *keepsamps, int length,
                      int *keeppreds, int num_samples, int num_preds, int nonsnp,
                      int maxthreads) {
-int  i;
-int  j;
-int  thread;
-int  threadstart;
-int  threadend;
-int  threadlength;
-int  *Mcurrent;
-float  size;
-float  startfloats[16];
-float  minfloat;
-float  maxfloat;
-unsigned  char **Mrowchars;
-unsigned  short **Mrowshorts;
-FILE  **Minput;
+  int i, j;
+  int thread, threadstart, threadend, threadlength, *Mcurrent;
+  float size, startfloats[16], minfloat, maxfloat;
+  unsigned char **Mrowchars;
+  unsigned short **Mrowshorts;
+  FILE **Minput;
   threadlength = (length - 1) / maxthreads + 1;
   Mcurrent = malloc(sizeof(int) * maxthreads);
   Minput = malloc(sizeof(FILE *) * maxthreads);
@@ -1363,19 +1288,12 @@ int read_speed_fly(char *speedfile, double *data, int num_samples_use,
                    int *keepsamps, int start, int end, int *keeppreds,
                    int num_samples, int num_preds, double missingvalue,
                    double threshold, int nonsnp) {
-int  i;
-int  j;
-int  current;
-float  size;
-float  startfloats[16];
-float  minfloat;
-float  maxfloat;
-double  value;
-unsigned  char *rowchars;
-unsigned  onechar;
-unsigned  short *rowshorts;
-unsigned  oneshort;
-FILE  *input;
+  int i, j, current;
+  float size, startfloats[16], minfloat, maxfloat;
+  double value;
+  unsigned char *rowchars, onechar;
+  unsigned short *rowshorts, oneshort;
+  FILE *input;
   if ((input = fopen(speedfile, "rb")) == NULL) {
     printf("Error opening %s\n\n", speedfile);
     exit(1);
@@ -1500,29 +1418,11 @@ int read_gen_fly(char *genfile, double *data, float **probs,
                  int num_preds, int genskip, int genheaders, int genprobs,
                  double missingvalue, double threshold, double minprob,
                  int nonsnp) {
-int  i;
-int  k;
-int  found;
-int  wcount;
-int  offset;
-int  mark;
-int  size;
-int  flag;
-double  prob0;
-double  prob1;
-double  prob2;
-double  prob3;
-double  proball;
-double  unifrand;
-double  value;
-double  *datatemp;
-double  *datap0;
-double  *datap1;
-char  readstring[500];
-char  *rs;
-char  *gzbuffer;
-char  *buffptr;
-char  *buffptr2;
+  int i, k, found, wcount, offset, mark, size, flag;
+  double prob0, prob1, prob2, prob3, proball, unifrand, value;
+  double *datatemp, *datap0, *datap1;
+  char readstring[500], *rs;
+  char *gzbuffer, *buffptr, *buffptr2;
   rs = malloc(sizeof(char) * 10000000);
   datatemp = malloc(sizeof(double) * num_samples);
   datap0 = malloc(sizeof(double) * num_samples);

@@ -19,52 +19,51 @@ int compare_int(const void *a, const void *b) {
   return (*(int *)a - *(int *)b);
 }
 int compare_float(const void *a, const void *b) {
-float  fa = *(const float *)a;
-float  fb = *(const float *)b;
+  float fa = *(const float *)a;
+  float fb = *(const float *)b;
   return (fa > fb) - (fa < fb);
 }
 int compare_float_rev(const void *a, const void *b) {
-float  fa = *(const float *)a;
-float  fb = *(const float *)b;
+  float fa = *(const float *)a;
+  float fb = *(const float *)b;
   return (fb > fa) - (fb < fa);
 }
 int compare_double(const void *a, const void *b) {
-double  fa = *(const double *)a;
-double  fb = *(const double *)b;
+  double fa = *(const double *)a;
+  double fb = *(const double *)b;
   return (fa > fb) - (fa < fb);
 }
 int compare_double_rev(const void *a, const void *b) {
-double  fa = *(const double *)a;
-double  fb = *(const double *)b;
+  double fa = *(const double *)a;
+  double fb = *(const double *)b;
   return (fb > fa) - (fb < fa);
 }
 int compare_string(const void *a, const void *b) {
-const  char *fa = *(const char **)a;
-const  char *fb = *(const char **)b;
+  const char *fa = *(const char **)a;
+  const char *fb = *(const char **)b;
   return (strcmp(fa, fb));
 }
 int compare_sorting_double(const void *a, const void *b) {
-const  struct sorting_double fa = *(const struct sorting_double *)a;
-const  struct sorting_double fb = *(const struct sorting_double *)b;
+  const struct sorting_double fa = *(const struct sorting_double *)a;
+  const struct sorting_double fb = *(const struct sorting_double *)b;
   return (fa.value > fb.value) - (fa.value < fb.value);
 }
 int compare_sorting_double_rev(const void *a, const void *b) {
-const  struct sorting_double fa = *(const struct sorting_double *)a;
-const  struct sorting_double fb = *(const struct sorting_double *)b;
+  const struct sorting_double fa = *(const struct sorting_double *)a;
+  const struct sorting_double fb = *(const struct sorting_double *)b;
   return (fb.value > fa.value) - (fb.value < fa.value);
 }
 int compare_sorting_string(const void *a, const void *b) {
-const  struct sorting_string fa = *(const struct sorting_string *)a;
-const  struct sorting_string fb = *(const struct sorting_string *)b;
+  const struct sorting_string fa = *(const struct sorting_string *)a;
+  const struct sorting_string fb = *(const struct sorting_string *)b;
   return (strcmp(fa.ptr, fb.ptr));
 }
 ///////////////////////////
 int check_dups(char **str, int length, char *filename, int *order, int type)
 // type=0 - quiet, type=1 - error
 {
-int  j;
-int  flag;
-struct  sorting_string *sptrs;
+  int j, flag;
+  struct sorting_string *sptrs;
   sptrs = malloc(sizeof(struct sorting_string) * length);
   for (j = 0;j < length;j++) {;
     sptrs[j].ptr = str[j];
@@ -102,14 +101,9 @@ int find_strings(char **stra, int lengtha, char **strb, int lengthb,
 // times predordera and predorderb might contain -1s, in which case the search
 // should stop
 {
-int  a;
-int  b;
-int  count;
-int  *ordera;
-int  *orderb;
-int  *founds;
-struct  sorting_string *sptrsa;
-struct  sorting_string *sptrsb;
+  int a, b, count;
+  int *ordera, *orderb, *founds;
+  struct sorting_string *sptrsa, *sptrsb;
   // get order for stra
   ordera = malloc(sizeof(int) * lengtha);
   if (type == 1 || type == 3) // stra not sorted
@@ -239,15 +233,9 @@ struct  sorting_string *sptrsb;
 int uni_ids(char **idsa, int na, char **idsb, int nb, char **allids, int type)
 // type states which list needs sorting (type=3, must sort both)
 {
-int  a;
-int  b;
-int  counta;
-int  countb;
-int  found;
-int  *indexa;
-int  *indexb;
-struct  sorting_string *sptrsa;
-struct  sorting_string *sptrsb;
+  int a, b, counta, countb, found;
+  int *indexa, *indexb;
+  struct sorting_string *sptrsa, *sptrsb;
   indexa = malloc(sizeof(int) * na);
   indexb = malloc(sizeof(int) * nb);
   sptrsa = malloc(sizeof(struct sorting_string) * na);
@@ -331,15 +319,9 @@ struct  sorting_string *sptrsb;
 int inter_ids(char **idsa, int na, char **idsb, int nb, char **allids, int type)
 // type states which list needs sorting (type=3, must sort both)
 {
-int  a;
-int  b;
-int  counta;
-int  countb;
-int  found;
-int  *indexa;
-int  *indexb;
-struct  sorting_string *sptrsa;
-struct  sorting_string *sptrsb;
+  int a, b, counta, countb, found;
+  int *indexa, *indexb;
+  struct sorting_string *sptrsa, *sptrsb;
   indexa = malloc(sizeof(int) * na);
   indexb = malloc(sizeof(int) * nb);
   sptrsa = malloc(sizeof(struct sorting_string) * na);
@@ -396,10 +378,7 @@ int uni_preds(int *chra, double *bpa, char **predsa, char *al1a, char *al2a,
               char *allal1, char *allal2, int k)
 // a is existing, so always takes priority - can only change alleles in b
 {
-int  counta;
-int  countb;
-int  found;
-int  dcount;
+  int counta, countb, found, dcount;
   // get first element - know each list must have at least one non-negative
   counta = 0;
   countb = 0;
@@ -540,10 +519,7 @@ int inter_preds(int *chra, double *bpa, char **predsa, char *al1a, char *al2a,
                 int Na, int *chrb, double *bpb, char **predsb, char *al1b,
                 char *al2b, int Nb, int *allchr, double *allbp, char **allnames,
                 char *allal1, char *allal2, int k) {
-int  counta;
-int  countb;
-int  found;
-int  dcount;
+  int counta, countb, found, dcount;
   // get first element - know each list must have at least one non-negative
   counta = 0;
   countb = 0;

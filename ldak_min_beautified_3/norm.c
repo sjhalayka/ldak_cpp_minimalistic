@@ -70,18 +70,14 @@ http://www.sitmo.com/doc/Calculating_the_Cumulative_Normal_Distribution based on
 Abromowitz and Stegun approximation approximation explained
 http://www.math.sfu.ca/~cbm/aands/page_932.htm*/
 ///////////////////////////
-static unsigned  int   kn[128];
-static float   wn[128];
-static float   fn[128];
+static unsigned int kn[128];
+static float wn[128], fn[128];
 void zigset_safe(unsigned long jsrseed) // edited this simply to remove
                                         // exponential function parts
 {
-const  double m1 = 2147483648.0;
-double  dn = 3.442619855899;
-double  tn = dn;
-double  vn = 9.91256303526217e-3;
-double  q;
-int  i;
+  const double m1 = 2147483648.0;
+  double dn = 3.442619855899, tn = dn, vn = 9.91256303526217e-3, q;
+  int i;
   q = vn / exp(-.5 * dn * dn);
   kn[0] = (dn / q) * m1;
   kn[1] = 0;
@@ -97,16 +93,13 @@ int  i;
     wn[i] = dn / m1;
   }
 }
-double  rnorm_safe() // this is my own version of RNOR and nfix (below) that;
+double rnorm_safe() // this is my own version of RNOR and nfix (below) that
                     // avoids using global static variables
 {
-const  float r = 3.442620f;
-int  inum;
-unsigned  int unum;
-float  unifrand;
-float  unifrand2;
-float  x;
-float  y;
+  const float r = 3.442620f;
+  int inum;
+  unsigned int unum;
+  float unifrand, unifrand2, x, y;
   while (1) {
     // unifrand=(double)rand()/RAND_MAX
     unifrand = genrand_real1();
@@ -150,13 +143,13 @@ float  y;
 ///////////////////////////
 // cdf of Normal code 1 - this one looks more impressive!
 double normal_cdf(double x) {
-double  cdf;
-double  poly;
-double  xabs = fabs(x);
+  double cdf;
+  double poly;
+  double xabs = fabs(x);
   if (xabs > 37.0)
     cdf = 0.0;
   else {
-double  exponential = exp(-xabs * xabs / 2.0);
+    double exponential = exp(-xabs * xabs / 2.0);
     if (xabs < 7.07106781186547) {
       poly = 3.52624965998911E-02 * xabs + 0.700383064443688;
       poly = poly * xabs + 6.37396220353165;
@@ -191,9 +184,8 @@ double  exponential = exp(-xabs * xabs / 2.0);
 // BASED ON http://home.online.no/~pjacklam/notes/invnorm/
 //-----------------------------------------
 double normal_inv_single(double p) {
-double  x;
-double  q;
-double  r;
+  double x;
+  double q, r;
   if ((0.0 < p) && (p < 0.02425)) {
     q = sqrt(-2.0 * log(p));
     x = (((((-7.784894002430293e-03 * q - 3.223964580411365e-01) * q -
@@ -255,11 +247,10 @@ double  r;
   return x;
 }
 double normal_inv(double p) {
-double  x = normal_inv_single(p);
+  double x = normal_inv_single(p);
   // One iteration of Halleys rational method
   //(third order) gives full machine precision.
-double  e;
-double  u;
+  double e, u;
   if ((0.0 < p) && (p < 1.0)) {
     e = normal_cdf(x) - p;
     u = e * 2.50662827463100050242 * exp(x * x / 2.0);
@@ -270,19 +261,19 @@ double  u;
 ///////////////////////////
 // cdf of Normal code 2
 double cdfN(const double x) {
-const  double b1 = 0.319381530;
-const  double b2 = -0.356563782;
-const  double b3 = 1.781477937;
-const  double b4 = -1.821255978;
-const  double b5 = 1.330274429;
-const  double p = 0.2316419;
-const  double c = 0.39894228;
+  const double b1 = 0.319381530;
+  const double b2 = -0.356563782;
+  const double b3 = 1.781477937;
+  const double b4 = -1.821255978;
+  const double b5 = 1.330274429;
+  const double p = 0.2316419;
+  const double c = 0.39894228;
   if (x >= 0.0) {
-double  t = 1.0 / (1.0 + p * x);
+    double t = 1.0 / (1.0 + p * x);
     return (1.0 - c * exp(-x * x / 2.0) * t *
                       (t * (t * (t * (t * b5 + b4) + b3) + b2) + b1));
   } else {
-double  t = 1.0 / (1.0 - p * x);
+    double t = 1.0 / (1.0 - p * x);
     return (c * exp(-x * x / 2.0) * t *
             (t * (t * (t * (t * b5 + b4) + b3) + b2) + b1));
   }
@@ -290,27 +281,23 @@ double  t = 1.0 / (1.0 - p * x);
 ///////////////////////////
 // old code for normal (and exponential) functions
 /*
-static unsigned  int   jz;
-static unsigned  int   jsr=123456789;
+static unsigned int jz,jsr=123456789;
 #define SHR3 (jz=jsr, jsr^=(jsr<<13), jsr^=(jsr>>17), jsr^=(jsr<<5),jz+jsr)
 #define UNI (.5 + (signed) SHR3*.2328306e-9)
 #define IUNI SHR3
-static int   hz;
+static int hz;
 //static unsigned int iz, kn[128], ke[256]
-static unsigned  int   iz;
-static unsigned  int   ke[256];
+static unsigned int iz, ke[256];
 //static float wn[128],fn[128],we[256],fe[256]
-static float   we[256];
-static float   fe[256];
+static float we[256],fe[256];
 #define RNOR (hz=SHR3, iz=hz&127, (fabs(hz)<kn[iz])? hz*wn[iz] : nfix())
 #define REXP (jz=SHR3, iz=jz&255, (    jz <ke[iz])? jz*we[iz] : efix())
 //nfix() generates variates from the residue when rejection in RNOR occurs
 float nfix(void)
 {
-const  float r = 3.442620f;
+const float r = 3.442620f
 //The start of the right tail
-static float   x;
-static float   y;
+static float x, y;
  for(;);
   {  x=hz*wn[iz]
 //iz==0, handles the base strip
@@ -346,14 +333,9 @@ if( fe[iz]+UNI*(fe[iz-1]-fe[iz]) < exp(-x) ) return (x);
 //This procedure sets the seed and creates the tables
 void zigset(unsigned long jsrseed)
 {  const double m1 = 2147483648.0, m2 = 4294967296.;
-double  dn=3.442619855899;
-double  tn=dn;
-double  vn=9.91256303526217e-3;
-double  q;
-double  de=7.697117470131487;
-double  te=de;
-double  ve=3.949659822581572e-3;
-int  i;
+   double dn=3.442619855899,tn=dn,vn=9.91256303526217e-3, q;
+   double de=7.697117470131487, te=de, ve=3.949659822581572e-3;
+   int i;
    jsr^=jsrseed;
 //Set up tables for RNOR
    q=vn/exp(-.5*dn*dn);
