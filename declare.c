@@ -1,48 +1,33 @@
-/* 
+/*
 Copyright 2024 Doug Speed.
-
     LDAK is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
 version.
-
     LDAK is distributed in the hope that they will be useful, but WITHOUT ANY
 WARRANTY
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License along with
 LDAK.  If not, see <http://www.gnu.org/licenses/>.
-
 */
-
-/////////////////////////// 
-
-// Declare variables 
-
-/////////////////////////// 
-
-// parameters set directly by user 
-
+///////////////////////////
+// Declare variables
+///////////////////////////
+// parameters set directly by user
 int  dougvar = 0;
 double  dougvar2 = -9999;
-
-// mode indicates which main argument is called (see mode.c for list) 
+// mode indicates which main argument is called (see mode.c for list)
 int  mode = -9999;
-
-// random seed 
+// random seed
 int  seed = -9999;
-
-// data input 
-
+// data input
 char  folder2[500] = "blank";
 char  folder[500] = "";
 char  outfile2[500] = "blank";
 char  outfile[500] = "";
-
 char  workdir2[500] = "blank";
 char  workdir[500] = "";
-
 char  udatafile2[500] = "blank";
 char  udatafile[500] = "";
 char  ubimfile2[500] = "blank";
@@ -53,20 +38,16 @@ char  unamefile2[500] = "blank";
 char  unamefile[500] = "";
 char  datalist2[500] = "blank";
 char  datalist[500] = "";
-
 int  oxchr = -9999;
 int  genskip = -9999;
 int  genheaders = -9999;
 int  genprobs = -9999;
 int  nonsnp = -9999;
-
 int  bedzeros[256];
 int  bedones[256];
 int  bedtwos[256];
 double  missingvalue = -9999;
-
-// data filtering 
-
+// data filtering
 char  bsampfile2[500] = "blank";
 char  bsampfile[500] = "";
 char  csampfile2[500] = "blank";
@@ -74,22 +55,18 @@ char  csampfile[500] = "";
 int  num_subs = -9999;
 char  subpref2[500] = "blank";
 char  subpref[500];
-
 char  bpredfile2[500] = "blank";
 char  bpredfile[500] = "";
 char  cpredfile2[500] = "blank";
 char  cpredfile[500] = "";
 int  onechr = -9999;
 char  onesnp[500] = "blank";
-
 double  minmaf = -9999;
 double  maxmaf = -9999;
 double  minvar = -9999;
 double  minobs = -9999;
 double  mininfo = -9999;
-
-// data scaling (and pvalues) and coding 
-
+// data scaling (and pvalues) and coding
 char  centresfile2[500] = "blank";
 char  centresfile[500] = "";
 char  weightsfile2[500] = "blank";
@@ -101,45 +78,36 @@ char  pvafile2[500] = "blank";
 char  pvafile[500] = "";
 char  impfile2[500] = "blank";
 char  impfile[500] = "";
-
 int  encoding = -9999;
 double  threshold = -9999;
 double  minprob = -9999;
-
-// kinships, regions, responses, summaries and fixed 
-
+// kinships, regions, responses, summaries and fixed
 char  kinname2[500] = "blank";
 char  kinname[500] = "";
 char  kinlist2[500] = "blank";
 char  kinlist[500] = "";
 int  kindetails = -9999;
-
 int  num_regs = -9999;
 char  regpref2[500] = "blank";
 char  regpref[500];
 double  rprune = -9999;
-
 char  respfile2[500] = "blank";
 char  respfile[500] = "";
 int  mpheno = -9999;
 int  mpheno2 = -9999;
 int  pad = -9999;
-
 char  sumsfile2[500] = "blank";
 char  sumsfile[500] = "";
 char  sums2file2[500] = "blank";
 char  sums2file[500] = "";
-
 int  fixn = -9999;
 int  fixn2 = -9999;
 int  amb = -9999;
 double  scaling = -9999;
 double  scaling2 = -9999;
-
 double  prev = -9999;
 double  prev2 = -9999;
 double  ascer = -9999;
-
 char  covarfile2[500] = "blank";
 char  covarfile[500] = "";
 char  covarnums2[2000] = "blank";
@@ -154,12 +122,9 @@ char  factorfile2[500] = "blank";
 char  factorfile[500] = "";
 char  povarfile2[500] = "blank";
 char  povarfile[500] = "";
-
 char  offsetfile2[500] = "blank";
 char  offsetfile[500] = "";
-
-// calculating weights, thinning and finding/removing tags 
-
+// calculating weights, thinning and finding/removing tags
 int  nothin = -9999;
 double  wprune = -9999;
 double  window_kb = -9999;
@@ -167,43 +132,34 @@ double  window_kb2;
 int  window_length = -9999;
 int  window_length2;
 double  window_cm = -9999;
-
 double  section_kb = -9999;
 int  section_length = -9999;
 double  section_cm = -9999;
 double  buffer_kb = -9999;
 int  buffer_length = -9999;
 double  buffer_cm = -9999;
-
 int  section = -9999;
 int  section_start = -9999;
-
 int  lddecay = -9999;
 double  halflife = -9999;
-
 int  fudge = -9999;
 int  simplex = -9999;
 double  maxtime = -9999;
 int  spread = -9999;
-
 char  targetfile2[500] = "blank";
 char  targetfile[500];
-
-// calculating and manipulating kinships (partitions also used for 
-// gene/chunk-based reml, sumher, gre) 
-
+// calculating and manipulating kinships (partitions also used for
+// gene/chunk-based reml, sumher, gre)
 int  part_length = -9999;
 int  bychr = -9999;
 int  num_parts = -9999;
 char  partpref2[500] = "blank";
 char  partpref[500];
 int  checkpart = -9999;
-
 int  partition = -9999;
 int  kingz = -9999;
 int  kinraw = -9999;
 int  single = -9999;
-
 double  dosage = -9999;
 char  malesfile2[500] = "blank";
 char  malesfile[500];
@@ -211,15 +167,11 @@ int  onlydets = -9999;
 char  invsfile2[500] = "blank";
 char  invsfile[500];
 int  david = -9999;
-
 double  maxrel = -9999;
 double  minrel = -9999;
 int  kinstand = -9999;
-
 int  partial = -9999;
-
-// reml, blup and he/pcgc (shortcut used indirectly by other functions) 
-
+// reml, blup and he/pcgc (shortcut used indirectly by other functions)
 int  diagonal = -9999;
 char  hersfile2[500] = "blank";
 char  hersfile[500] = "";
@@ -228,40 +180,31 @@ int  shortcut = -9999;
 int  discenv = -9999;
 char  oversfile2[500] = "blank";
 char  oversfile[500] = "";
-
 char  remlfile2[500] = "blank";
 char  remlfile[500] = "";
-
 int  adjusted = -9999;
 double  trun = -9999;
-
 int  num_vects = -9999;
 int  ldlt = -9999;
-
 char  relfile[500];
 char  relfile2[500] = "blank";
 int  cordups = -9999;
-
-// association analysis (genes also used for condensing data) 
-
+// association analysis (genes also used for condensing data)
 int  kvikstep = -9999;
 int  faststep = -9999;
 int  gctastep = -9999;
 char  prsfile2[500] = "blank";
 char  prsfile[500] = "";
 int  verbose = -9999;
-
 int  spatest = -9999;
 int  num_knots = -9999;
 int  num_bins = -9999;
 int  spaside = 1;
 double  spathresh = -9999;
 double  spamax = -9999;
-
 int  families = -9999;
 int  trios = -9999;
 int  duos = -9999;
-
 int  adjpreds = -9999;
 char  sampwfile2[500] = "blank";
 char  sampwfile[500] = "";
@@ -270,7 +213,6 @@ int  exact = -9999;
 int  scoretest = -9999;
 char  transfile2[500] = "blank";
 char  transfile[500] = "";
-
 char  genefile2[500] = "blank";
 char  genefile[500] = "";
 double  chunks = -9999;
@@ -280,21 +222,17 @@ int  up_buffer = -9999;
 int  down_buffer = -9999;
 double  minweight = -9999;
 int  overlap = -9999;
-
 int  gene_perms = -9999;
 int  saveall = -9999;
 double  gprune = -9999;
 double  limit = -9999;
-
 int  magma = -9999;
 double  cut1 = -9999;
 double  cut2 = -9999;
 double  gamp = -9999;
 double  gam1 = -9999;
 double  gam2 = -9999;
-
-// sumher (annotations also used by fast he and pcgc 
-
+// sumher (annotations also used by fast he and pcgc
 int  num_anns = -9999;
 char  annpref2[500] = "blank";
 char  annpref[500];
@@ -305,7 +243,6 @@ char  labfile[500];
 int  backpart = -9999;
 int  allone = -9999;
 int  reduce = -9999;
-
 char  printfile2[500] = "blank";
 char  printfile[500] = "";
 char  herfile2[500] = "blank";
@@ -314,7 +251,6 @@ int  unbias = -9999;
 int  savemat = -9999;
 int  cover = -9999;
 int  fourdp = -9999;
-
 char  taglist2[500] = "blank";
 char  taglist[500] = "";
 char  matlist2[500] = "blank";
@@ -322,7 +258,6 @@ char  matlist[500] = "";
 char  pathlist2[500] = "blank";
 char  pathlist[500] = "";
 int  checkdups = -9999;
-
 char  tagfile2[500] = "blank";
 char  tagfile[500] = "";
 char  pathfile2[500] = "blank";
@@ -335,35 +270,26 @@ char  catfile2[500] = "blank";
 char  catfile[500] = "";
 char  taufile2[500] = "blank";
 char  taufile[500] = "";
-
 int  checksums = -9999;
 int  gcon = -9999;
 int  cept = -9999;
-
 int  ldsc = -9999;
 int  chisol = -9999;
 int  tagone = -9999;
-
 int  divide = -9999;
 int  uptaus = -9999;
 char  powfile2[500] = "blank";
 char  powfile[500] = "";
-
 int  plet = -9999;
-
 char  matfile2[500] = "blank";
 char  matfile[500] = "";
-
 char  expfile2[500] = "blank";
 char  expfile[500] = "";
 double  cvar = -9999;
-
-// individual-level data prediction, then megaprs 
-
+// individual-level data prediction, then megaprs
 char  indhers2[500] = "blank";
 char  indhers[500] = "";
 double  herscale = -9999;
-
 int  loco = -9999;
 int  dichot = -9999;
 int  multi = -9999;
@@ -372,19 +298,15 @@ int  fprs = -9999;
 int  fastgwa = -9999;
 char  fastfile2[500] = "blank";
 char  fastfile[500] = "";
-
 int  skipcv = -9999;
 double  cvprop = -9999;
 char  bvsfile2[500] = "blank";
 char  bvsfile[500] = "";
-
 int  ldpred = -9999;
 int  pointmass = -9999;
-
 int  ndivs = -9999;
 int  nmcmc = -9999;
 double  maxher = -9999;
-
 int  checkped = -9999;
 int  nped = -9999;
 double  maithresh = -9999;
@@ -394,50 +316,36 @@ int  ncomp = -9999;
 double  cthresh = -9999;
 int  nscan = -9999;
 int  revher = -9999;
-
 char  blockfile2[500] = "blank";
 char  blockfile[500] = "";
-
 char  corslist2[500] = "blank";
 char  corslist[500] = "";
-
 double  subprop = -9999;
-
 char  corname2[500] = "blank";
 char  corname[500] = "";
 char  pseudostem2[500] = "blank";
 char  pseudostem[500] = "";
-
 int  ptype = -9999;
 char  bestfile2[500] = "blank";
 char  bestfile[500] = "";
-
 int  checkld = -9999;
 char  ldfile2[500] = "blank";
 char  ldfile[500] = "";
-
 char  fracfile2[500] = "blank";
 char  fracfile[500] = "";
-
 int  checkfreq = -9999;
 int  prsvar = -9999;
 double  jackprop = -9999;
-
-// pca, decompose, adjust-grm and others 
-
+// pca, decompose, adjust-grm and others
 int  axes = -9999;
 char  pcastem2[500] = "blank";
 char  pcastem[500] = "";
-
 int  eigenraw = -9999;
 char  eigenfile2[500] = "blank";
 char  eigenfile[500] = "";
-
 int  noise = -9999;
-
-// stats, scores, making phenotypes, snps, inflation, jackknifing, folds, find 
-// gaussian 
-
+// stats, scores, making phenotypes, snps, inflation, jackknifing, folds, find
+// gaussian
 char  scorefile2[500] = "blank";
 char  scorefile[500] = "";
 char  cofile2[500] = "blank";
@@ -445,7 +353,6 @@ char  cofile[500] = "";
 int  savecounts = -9999;
 char  finalfile2[500] = "blank";
 char  finalfile[500] = "";
-
 int  num_phenos = -9999;
 int  num_causals = -9999;
 double  her = -9999;
@@ -459,7 +366,6 @@ char  causalsfile2[500] = "blank";
 char  causalsfile[500];
 char  effectsfile2[500] = "blank";
 char  effectsfile[500];
-
 int  num_inds = -9999;
 int  num_snps = -9999;
 double  maf1 = -9999;
@@ -470,21 +376,17 @@ double  closeness = -9999;
 int  quads = -9999;
 int  pops = -9999;
 double  missrate = -9999;
-
 char  predlista[500];
 char  predlista2[500] = "blank";
 char  predlistb[500];
 char  predlistb2[500] = "blank";
 int  savepairs = -9999;
-
 char  jackfile[500];
 char  jackfile2[500] = "blank";
 char  proffile[500];
 char  proffile2[500] = "blank";
 int  auc = -9999;
-
 int  num_folds = -9999;
-
 char  likefile[500];
 char  likefile2[500] = "blank";
 int  num_means = -9999;
@@ -493,23 +395,16 @@ double  minmean = -9999;
 double  maxmean = -9999;
 double  maxsd = -9999;
 int  omitone = -9999;
-
-// making and condensing data 
-
+// making and condensing data
 int  exsame = -9999;
 int  exlong = -9999;
 int  speedlong = -9999;
-
 int  useminor = -9999;
-
-// gre 
-
+// gre
 int  sinv = -9999;
 char  greout[500];
 char  greout2[500] = "blank";
-
-// common options 
-
+// common options
 int  checkroot = -9999;
 double  mincor = -9999;
 double  maxcor = -9999;
@@ -519,46 +414,48 @@ int  num_blocks = -9999;
 int  permute = -9999;
 double  shrink = -9999;
 double  strip = -9999;
-
 int  bitsize = -9999;
 int  bitsize2;
 double  tol = -9999;
 int  maxiter = -9999;
 int  memsave = -9999;
-
 int  manysamples = -9999;
 int  manypreds = -9999;
-
-// threading option 
-
+// threading option
 int  maxthreads = 1;
-
-/////////////////////////// 
-
-// variables which are used for a specific purpose (and set fairly early on) 
-
-// storing data 
-
-int dtype = -9999, binary = -9999, famhead = -9999, extract = 0, use_data,
-    num_files = 0;
+///////////////////////////
+// variables which are used for a specific purpose (and set fairly early on)
+// storing data
+int  dtype = -9999;
+int  binary = -9999;
+int  famhead = -9999;
+int  extract = 0;
+int  use_data;
+int  num_files = 0;
 char  **datastems;
 char  **bimstems;
 char  **famstems;
 char  datafile[500];
 char  bimfile[500];
 char  famfile[500];
-
-int num_samples = -9999, num_samples_use = -9999, *keepsamps, *keepsamps_males,
-    **subindex;
-int num_preds = -9999, num_preds_use = -9999, *keeppreds, data_length = -9999,
-    *keeppreds_use;
-
-int bgen_preds = -9999, bgen_samples = -9999, bgen_comp = -9999,
-    bgen_layout = -9999, bgen_ids = -9999;
+int  num_samples = -9999;
+int  num_samples_use = -9999;
+int  *keepsamps;
+int* keepsamps_males;
+int  **subindex;
+int  num_preds = -9999;
+int  num_preds_use = -9999;
+int* keeppreds;
+int  data_length = -9999;
+int  *keeppreds_use;
+int  bgen_preds = -9999;
+int  bgen_samples = -9999;
+int  bgen_comp = -9999;
+int  bgen_layout = -9999;
+int  bgen_ids = -9999;
 size_t  *bgen_indexes;
 int  maxpreds = 500000;
-// the apriori max number of predictors in gen files 
-
+// the apriori max number of predictors in gen files
 char  **ids1;
 char  **ids2;
 char  **ids3;
@@ -566,8 +463,14 @@ char  **ids4;
 char  **allids1;
 char  **allids2;
 char  **allids3;
-int *chr, *allchr, num_chr, num_chr2, num_chr3, *chrindex, *chrindex2,
-    *chrindex3;
+int* chr;
+int* allchr;
+int  num_chr;
+int  num_chr2;
+int  num_chr3;
+int* chrindex;
+int* chrindex2;
+int  *chrindex3;
 double  *cm;
 double  *bp;
 double  *cmbp;
@@ -584,7 +487,6 @@ char  *al1;
 char  *al2;
 char  *allal1;
 char  *allal2;
-
 unsigned  char **data_char;
 float  *data_single;
 float  *data_single2;
@@ -592,7 +494,6 @@ double  *data;
 double  *data2;
 double  *data3;
 double  **bytelookup;
-
 float  *speedstarts;
 float  *speedscales;
 float  **ps;
@@ -604,13 +505,10 @@ double  *rates;
 double  *infos;
 double  *weights;
 double  *pvalues;
-
 int  num_pows;
 double  *powers;
 double  *powers2;
-
-// kinships, regions, responses, summaries and fixed 
-
+// kinships, regions, responses, summaries and fixed
 int  num_kins;
 int  *kinnums;
 float  *kins_single;
@@ -623,7 +521,6 @@ double  **Mkins;
 double  *kintraces;
 double  *kinsums;
 char  **kinstems;
-
 int  *kindex;
 double  *kcentres;
 double  *kmults;
@@ -632,7 +529,6 @@ double  *kexps;
 char  **kpreds;
 char  *kal1;
 char  *kal2;
-
 int  rnum_preds_use;
 int  *rkeeppreds;
 int  **regindex;
@@ -647,12 +543,14 @@ double  *rweights;
 char  **rpreds;
 char  *ral1;
 char  *ral2;
-
-int num_resps, num_resps_use, *keepresps, *keepresps2, *respcounts,
-    *respcounts2;
+int  num_resps;
+int  num_resps_use;
+int* keepresps;
+int* keepresps2;
+int* respcounts;
+int  *respcounts2;
 double  *resp;
 double  *resp2;
-
 int  sformat;
 int  sformat2;
 int  gotfreq;
@@ -678,7 +576,6 @@ double  *trhos;
 double  *srhos;
 double  *srhos2;
 double  *a1freq;
-
 int  num_quants;
 int  num_cats;
 int  num_covars;
@@ -692,7 +589,6 @@ double  *thetasds;
 double  *thetapvas;
 double  covher;
 double  topher;
-
 int  num_tops;
 int  *tkeeppreds;
 int  *tchr;
@@ -702,11 +598,8 @@ double  *tvars;
 char  **tpreds;
 char  *tal1;
 char  *tal2;
-
 double  *offsets;
-
-// calculating weights, thinnings and finding/removing tags 
-
+// calculating weights, thinnings and finding/removing tags
 int  num_sections;
 double  decay;
 int  *sstarts;
@@ -722,32 +615,29 @@ double  *tally2;
 double  *tally3;
 double  *tally4;
 int  *replace;
-
 int  num_seek;
 int  *sindex;
 int  *stypes;
-
-// calculating and manipulating kinships 
-
+// calculating and manipulating kinships
 int  *pstarts;
 int  *pends;
 int  *highs;
 int  *losts;
 double  *maxes;
-
-// reml, blup and he/pcgc 
-
+// reml, blup and he/pcgc
 char  blupfile2[500] = "blank";
 char  blupfile[500] = "";
 char  regfile2[500] = "blank";
 char  regfile[500] = "";
-
 int  **nums;
-double **blupcentres, **blupfactors, *bluprands, *blupvalues, *blupmids,
-    *blupprojs;
+double** blupcentres;
+double** blupfactors;
+double* bluprands;
+double* blupvalues;
+double* blupmids;
+double  *blupprojs;
 double  **guesses;
 double  ***guesses2;
-
 int  *bstarts;
 int  *bends;
 double  *R;
@@ -762,19 +652,20 @@ double  *KKtraces2;
 double  *KKtraces3;
 double  *KYtraces;
 double  *KYtraces2;
-
 float  *bluprand_single;
 float  *guess_single;
-
-// association analysis 
-
+// association analysis
 int  num_fams;
 int  *famindex;
 int  *famcounts;
-
-double *Pincs, *Pscales, *Pscales2, *Pscales3, *Pvarphens, *Plambdas, *Proots,
-    *Pspamax;
-
+double* Pincs;
+double* Pscales;
+double* Pscales2;
+double* Pscales3;
+double* Pvarphens;
+double* Plambdas;
+double* Proots;
+double  *Pspamax;
 int  *tindex;
 int  *spastatus;
 double  *knots;
@@ -795,11 +686,9 @@ double  *nullprobs;
 double  *nullprobs2;
 double  *nullweights;
 double  *nullweights2;
-
 int  kvikparity;
 double  *prs;
 double  *covprs;
-
 int  num_genes;
 int  genemax;
 int  *gchr;
@@ -813,9 +702,7 @@ double  *gpvas;
 char  **gnames;
 int  nclump;
 double  *permlike;
-
-// tagging, sumher and bayes factors 
-
+// tagging, sumher and bayes factors
 int  **pindexes;
 int  addpart;
 int  addpart2;
@@ -823,7 +710,6 @@ int  addgenic;
 int  *windex;
 int  *vindex;
 double  **pweights;
-
 int  num_tags;
 int  num_anals;
 int  num_reds;
@@ -833,11 +719,9 @@ char  **matstems;
 int  *pcounts;
 int  *keepparts;
 int  *keepparts2;
-
 double  *exps;
 double  *exps2;
 char  **catlabels;
-
 int  num_parts_use;
 int  ncv;
 int  *cvindex;
@@ -851,7 +735,6 @@ double  *cvexps;
 char  **spreds;
 char  *sal1;
 char  *sal2;
-
 int  topm;
 int  tops;
 double  *influs;
@@ -859,14 +742,11 @@ double  *powlikes;
 double  *mvals;
 double  *svals;
 double  **perfs;
-
 double  *pmeans;
 double  *pvars;
 double  *bfs;
 double  *podds;
-
-// individual-level data prediction, then megaprs 
-
+// individual-level data prediction, then megaprs
 int  num_train;
 int  num_test;
 int  *keeptrain;
@@ -880,7 +760,6 @@ int  useped;
 int  highstruct;
 int  usecal;
 int  usecomp;
-
 int  *pedtops;
 double  *pedscales;
 double  *pedhers;
@@ -888,7 +767,6 @@ double  *pedprs;
 double  *pedgammas;
 double  *pedsds;
 double  *pedmse;
-
 int  *eindex;
 int  *eindex2;
 double  *ecentres;
@@ -896,7 +774,6 @@ double  *emults;
 double  *esqdevs;
 double  *erates;
 double  *einfos;
-
 int  *cindex;
 int  *cindex2;
 double  *cdata;
@@ -905,7 +782,6 @@ double  *cmults;
 double  *csqdevs;
 double  *crates;
 double  *cinfos;
-
 int  *dindex;
 int  *dindex2;
 double  *ddata;
@@ -914,7 +790,6 @@ double  *dmults;
 double  *dsqdevs;
 double  *drates;
 double  *dinfos;
-
 int  maxpairs;
 int  num_rels;
 int  *firsts;
@@ -922,7 +797,6 @@ int  *seconds;
 double  *kinships;
 double  *cX;
 double  *cR;
-
 double  *lambdas;
 double  *lambdas2;
 double  *lambdas3;
@@ -930,9 +804,17 @@ double  *lambdas4;
 double  *cgammas;
 double  *csds;
 double  *ceffs;
-double *effs, *effs2, *effs3, *probs, *probs2, *residuals, *residuals2,
-    *residuals3, *changes, *ess, *ess2;
-
+double* effs;
+double* effs2;
+double* effs3;
+double* probs;
+double* probs2;
+double* residuals;
+double* residuals2;
+double* residuals3;
+double  *changes;
+double  *ess;
+double  *ess2;
 int  *bitrun;
 int  *bitdo;
 int  *bitactive;
@@ -940,7 +822,6 @@ int  *bitdet1;
 int  *bitdet2;
 double  *bitdiffs;
 double  *bitpens;
-
 int  *Mtops;
 int  *Mbests;
 int  *Mincs;
@@ -948,12 +829,20 @@ double  *Mscales;
 double  *Mmses;
 double  *Mmses2;
 double  *Mneffs;
-double *Gmat, *Emat, *Umat, *Umat2, *Wmat, *Wmat2, *Wmat3, *Wmat4, *Wmat5,
-    *Vmat, *Vmat2, *Ymat;
-
-// double *cY, *cX, *cR, *cP, *cHP, *cKP, *cVP, *ctemps, *calphas, *cbetas 
-// double *results1a, *results1b, *results2a, *results2b 
-
+double* Gmat;
+double* Emat;
+double* Umat;
+double* Umat2;
+double* Wmat;
+double* Wmat2;
+double* Wmat3;
+double* Wmat4;
+double* Wmat5;
+double* Vmat;
+double* Vmat2;
+double* Ymat;
+// double *cY, *cX, *cR, *cP, *cHP, *cKP, *cVP, *ctemps, *calphas, *cbetas
+// double *results1a, *results1b, *results2a, *results2b
 size_t  *blockindexes;
 int  *blockstarts;
 int  *blockends;
@@ -968,26 +857,30 @@ double  *datarands;
 double  *datarands2;
 double  *subrhos;
 double  *restrhos;
-
 int  num_cors;
 char  **corstems;
-
 int  *trytypes;
-double *tryhers, *trylams, *tryscales, *tryps, *tryp2s, *tryp3s, *tryp4s,
-    *tryf2s, *tryvars;
-
+double* tryhers;
+double* trylams;
+double* tryscales;
+double* tryps;
+double* tryp2s;
+double* tryp3s;
+double* tryp4s;
+double* tryf2s;
+double*tryvars;
 int  *highlds;
 double  *loads;
 double  *loads2;
-
-// pca, decompose, adjust-grm and others 
-
-float *Z_single, *ZTZ_single, *kinZ_single, *ZTkinZ_single, *W_single,
-    *WZTkinZ_single;
-
-// stats, scores, making phenotypes, snps, inflation, folds, jackknifing and 
-// cors 
-
+// pca, decompose, adjust-grm and others
+float* Z_single;
+float* ZTZ_single;
+float* kinZ_single;
+float* ZTkinZ_single;
+float* W_single;
+float*WZTkinZ_single;
+// stats, scores, making phenotypes, snps, inflation, folds, jackknifing and
+// cors
 int  *presents;
 int  *hets;
 int  num_scores = 0;
@@ -1002,16 +895,22 @@ double  *vsds;
 double  *veffs;
 double  *vadds;
 double  **liabs;
-
 int  numa;
 int  *keepa;
 int  numb;
 int  *keepb;
-double *acentres, *amults, *bcentres, *bmults, *asqdevs, *bsqdevs, *arates,
-    *brates, *ainfos, *binfos;
+double* acentres;
+double* amults;
+double* bcentres;
+double* bmults;
+double* asqdevs;
+double* bsqdevs;
+double* arates;
+double* brates;
+double* ainfos;
+double  *binfos;
 char  **apreds;
 char  **bpreds;
-
 int  *sZ1;
 int  *sZ2;
 double  *sX;
@@ -1019,9 +918,7 @@ double  *sXTX;
 double  *sXTX2;
 double  *sW;
 double  *sT;
-
-// making and condensing data 
-
+// making and condensing data
 int  *Xcurrent;
 int  *Xnall;
 int  *Xnuse;
@@ -1044,7 +941,6 @@ char  **Xal1;
 char  **Xal2;
 FILE  **Xinput;
 gzFile  *Xdatainputgz;
-
 int  passqc;
 int  csamps;
 int  qmerge;
@@ -1061,7 +957,6 @@ unsigned  char onechar;
 unsigned  short oneshort;
 float  minfloat;
 float  maxfloat;
-
 int  rowlength;
 int  c0;
 int  c1;
@@ -1069,9 +964,7 @@ int  c2;
 unsigned  char startchars[3];
 unsigned  *rowchars;
 unsigned  *rowchars2;
-
-// speed tests 
-
+// speed tests
 float  *Rvsing;
 float  *Rvsing2;
 float  *Rvsing3;
@@ -1079,12 +972,18 @@ float  *kins_packed;
 double  *Rv;
 double  *Rv2;
 size_t  scount2;
-
-// common options 
-
-int bit, bittotal, bittotal2, bitstart, bitstart2, bitend, bitend2, bitlength,
-    bitlength2, bitmax, step;
-
+// common options
+int  bit;
+int  bittotal;
+int  bittotal2;
+int  bitstart;
+int  bitstart2;
+int  bitend;
+int  bitend2;
+int  bitlength;
+int  bitlength2;
+int  bitmax;
+int  step;
 double  *Y;
 double  *Yadj;
 double  *Yadj2;
@@ -1099,7 +998,6 @@ double  *ZTZ2;
 double  *ZTZ3;
 double  detZTZ;
 double  *ZTdata;
-
 double  *U;
 double  *U2;
 double  *E;
@@ -1107,7 +1005,6 @@ double  *E2;
 double  *UTY;
 double  *UTZ;
 double  *UTdata;
-
 int  Xtotal;
 int  *Xstarts;
 int  *Xends;
@@ -1121,30 +1018,88 @@ double  *Xsums;
 double  *Xnss;
 double  *Xrhos;
 double  *Xsqs;
-
-// threading options 
-
+// threading options
 int  thread;
 int  threadstart;
 int  threadend;
 int  *Mcurrent;
 float  **Mdatatemp;
 FILE  **Minput;
-
-/////////////////////////// 
-
-// generic working variables 
-
+///////////////////////////
+// generic working variables
 size_t  scount;
 size_t  smax;
-int i, i2, i3, j, j2, j3, k, k2, g, m, m2, p, p2, q, q2, q3, r, s, count,
-    count2, count3, count4;
-int current, head, found, total, total2, total3, token, indcount, ecount,
-    wcount, xcount, *ycounts;
-int shuffle, start, end, best, worst, mark, mark2, mark3, mark4, gen, gen2,
-    *gens, flag, cflag, eflag, hflag, *order, *order2, cols[6];
-double sum, sum2, sum3, sumsq, sumsq2, sumsq3, sumsq4, mean, mean2, mean3, var,
-    var2, var3, value, value2, value3, value4, value5;
+int  i;
+int  i2;
+int  i3;
+int  j;
+int  j2;
+int  j3;
+int  k;
+int  k2;
+int  g;
+int  m;
+int  m2;
+int  p;
+int  p2;
+int  q;
+int  q2;
+int  q3;
+int  r;
+int  s;
+int  count;
+int  count2;
+int  count3;
+int  count4;
+int  current;
+int  head;
+int  found;
+int  total;
+int  total2;
+int  total3;
+int  token;
+int  indcount;
+int  ecount;
+int  wcount;
+int  xcount;
+int  *ycounts;
+int  shuffle;
+int  start;
+int  end;
+int  best;
+int  worst;
+int  mark;
+int  mark2;
+int  mark3;
+int  mark4;
+int  gen;
+int  gen2;
+int* gens;
+int  flag;
+int  cflag;
+int  eflag;
+int  hflag;
+int* order;
+int* order2;
+int  cols[6];
+double  sum;
+double  sum2;
+double  sum3;
+double  sumsq;
+double  sumsq2;
+double  sumsq3;
+double  sumsq4;
+double  mean;
+double  mean2;
+double  mean3;
+double  var;
+double  var2;
+double  var3;
+double  value;
+double  value2;
+double  value3;
+double  value4;
+double  value5;
 double  last;
 double  min;
 double  max;
@@ -1154,8 +1109,15 @@ double  varphen;
 double  gif;
 double  postmean;
 double  unifrand;
-double *hers, *hersold, *hersds, *shares, *sharesds, *cohers, *cohers2, mat[4],
-    mat2[2];
+double* hers;
+double* hersold;
+double* hersds;
+double* shares;
+double* sharesds;
+double* cohers;
+double* cohers2;
+double  mat[4];
+double  mat2[2];
 double  likenull;
 double  like;
 double  lrtstat;
@@ -1181,7 +1143,6 @@ double  *stats3;
 double  *stats4;
 double  **effects;
 double  *varexp;
-
 int  one = 1;
 int  two = 2;
 int  three = 3;
@@ -1198,15 +1159,23 @@ double  wkopt;
 double  *work;
 double  vl;
 double  vu;
-
-int idshead, *idsorder, *predorder, *usedids, *usedpreds, *indexer, *indexer2,
-    *retain;
-char idsfile[500] = "blank", **kinids, **kinids2, **kinids3, **wantids,
-     **wantids2;
+int  idshead;
+int* idsorder;
+int* predorder;
+int* usedids;
+int* usedpreds;
+int* indexer;
+int* indexer2;
+int  *retain;
+char  idsfile[500] = "blank";
+char** kinids;
+char** kinids2;
+char** kinids3;
+char** wantids;
+char  **wantids2;
 char  **wantpreds;
 char  **wantpreds2;
 char  **kinpreds;
-
 int  readint;
 int  readint2;
 int  readint3;
@@ -1221,28 +1190,44 @@ double  *readdoubles;
 char  readchar;
 char  readchar2;
 char  *rs;
-char **readstrings, readstring[500], readstring2[500], readstring3[500],
-    readstring4[500], readstring5[500], readstring6[500];
+char** readstrings;
+char  readstring[500];
+char  readstring2[500];
+char  readstring3[500];
+char  readstring4[500];
+char  readstring5[500];
+char  readstring6[500];
 char  **writestrings;
 char  writestring[500];
 char  cmd[2000];
 char  cmd2[2000];
-
-char filename[500], filename2[500], filename3[500], filename4[500],
-    filename5[500], filename6[500], filename7[500], filename8[500],
-    filename9[500], filename10[500];
+char  filename[500];
+char  filename2[500];
+char  filename3[500];
+char  filename4[500];
+char  filename5[500];
+char  filename6[500];
+char  filename7[500];
+char  filename8[500];
+char  filename9[500];
+char  filename10[500];
 FILE  *input;
 FILE  *input2;
 FILE  *input3;
-FILE *output, *output2, *output3, *output4, *output5, *output6, *output7,
-    *output8, *output9, *output10;
-
+FILE* output;
+FILE* output2;
+FILE* output3;
+FILE* output4;
+FILE* output5;
+FILE* output6;
+FILE* output7;
+FILE* output8;
+FILE* output9;
+FILE  *output10;
 DIR  *dir;
 gzFile  datainputgz;
 struct  stat statstruct;
-
 struct  sorting_double *dptrs;
 struct  sorting_string *sptrs;
-
-/////////////////////////// 
+///////////////////////////
 
