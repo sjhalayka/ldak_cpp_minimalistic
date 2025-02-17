@@ -22,6 +22,10 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////// 
 
+
+#include <vector>
+using std::vector;
+
 void open_datagz(gzFile *inputgz, char *datafile, int num_samples, int genskip,
                  int genheaders, int genprobs) {
 int  j;
@@ -61,7 +65,7 @@ char  *gzbuffer;
 // get number of elements in row 
   count = 1;
   readchar2 = gzbuffer[0];
-  for (j = 1;j < size2 - 1;j++) {;
+  for (j = 1;j < size2 - 1;j++) {
     readchar = gzbuffer[j];
     if ((readchar2 == 9 || readchar2 == 32) && readchar != 9 &&
         readchar != 32) {
@@ -106,7 +110,7 @@ char  *gzbuffer;
     }
     printf("Skipping Row %d of %s, I hope this is a header\n(Row begins: %c",
            count + 1, datafile, gzbuffer[0]);
-    for (j = 1;j < size2 - 1;j++) {;
+    for (j = 1;j < size2 - 1;j++) {
       if (j < 50) {
         printf("%c", gzbuffer[j]);
       }
@@ -137,7 +141,7 @@ int  threadlength;
   threadlength = (length - 1) / maxthreads + 1;
 
 #pragma omp parallel for private(thread, threadstart, threadend)  schedule(static, 1)
-  for (thread = 0;thread < maxthreads;thread++) {;
+  for (thread = 0;thread < maxthreads;thread++) {
     threadstart = thread * threadlength;
     threadend = (thread + 1) * threadlength;
     if (threadend > length) {
@@ -166,20 +170,24 @@ int  thread;
 int  threadstart;
 int  threadend;
 int  threadlength;
-float  ***threadprobs;
+
+vector<vector<vector<float>>> threadprobs(0, vector<vector<float>>(0, vector<float>(0)));
 
   if (dtype == 1 || dtype == 2 || dtype == 3 ||
       dtype == 4) // can read in parallel
   {
     threadlength = (end - start - 1) / maxthreads + 1;
-    if (dtype == 2) {
-      threadprobs = malloc(sizeof(float **) * maxthreads);
+    if (dtype == 2) 
+    {
+
+        threadprobs.resize(maxthreads);
+
     }
 
 #pragma omp parallel for private(thread, threadstart, threadend)   schedule(static, 1)
 
 
-    for (thread = 0;thread < maxthreads;thread++) {;
+    for (thread = 0;thread < maxthreads;thread++) {
       threadstart = start + thread * threadlength;
       threadend = start + (thread + 1) * threadlength;
       if (threadend > end) {
@@ -201,17 +209,15 @@ float  ***threadprobs;
                         threadend, keeppreds_use, num_samples, num_preds,
                         bgen_indexes, missingvalue, threshold, minprob);
         } else {
-          threadprobs[thread] = malloc(sizeof(float *) * 2);
-          threadprobs[thread][0] =
-              probs[0] + (size_t)(threadstart - start) * num_samples_use;
-          threadprobs[thread][1] =
-              probs[1] + (size_t)(threadstart - start) * num_samples_use;
+            threadprobs[thread].resize(2);
+            get_pointer_from_vector(threadprobs[thread], threadprobs.size())[0] = probs[0] + (size_t)(threadstart - start) * num_samples_use;
+            get_pointer_from_vector(threadprobs[thread], threadprobs.size())[1] = probs[1] + (size_t)(threadstart - start) * num_samples_use;
+
           read_bgen_fly(
               datafile, data + (size_t)(threadstart - start) * num_samples_use,
-              threadprobs[thread], num_samples_use, keepsamps, threadstart,
+              get_pointer_from_vector(threadprobs[thread], threadprobs.size()), num_samples_use, keepsamps, threadstart,
               threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
               missingvalue, threshold, minprob);
-          free(threadprobs[thread]);
         }
       }
 
@@ -231,7 +237,7 @@ float  ***threadprobs;
     }
 
     if (dtype == 2) {
-      free(threadprobs);
+    //  free(threadprobs);
     }
   }
 
@@ -269,14 +275,14 @@ double  value;
 
 
 
-  for (j = 0;j < length;j++) {;
+  for (j = 0;j < length;j++) {
     if (type == 0 || type == 1 ||
         type == 3) // calculate centre, mult, sqdev and rate
     {
       sum = 0;
       sumsq = 0;
       indcount = 0;
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         if (data[(size_t)j * ns + i] != missingvalue) {
           sum += data[(size_t)j * ns + i];
           sumsq += pow(data[(size_t)j * ns + i], 2);
@@ -321,7 +327,7 @@ double  value;
 
       if (type == 3 && indcount < ns) // set missing to mean
       {
-        for (i = 0;i < ns;i++) {;
+        for (i = 0;i < ns;i++) {
           if (data[(size_t)j * ns + i] == missingvalue) {
             data[(size_t)j * ns + i] = mean;
           }
@@ -336,7 +342,7 @@ double  value;
         if (mults[j] != -9999 && weights[j] > 0) // not trivial
         {
           value = mults[j] * pow(weights[j], .5);
-          for (i = 0;i < ns;i++) {;
+          for (i = 0;i < ns;i++) {
             if (data[(size_t)j * ns + i] != missingvalue) {
               data[(size_t)j * ns + i] =
                   (data[(size_t)j * ns + i] - centres[j]) * value;
@@ -346,7 +352,7 @@ double  value;
           }
         } else // trivial
         {
-          for (i = 0;i < ns;i++) {;
+          for (i = 0;i < ns;i++) {
             data[(size_t)j * ns + i] = 0;
           }
         }
@@ -354,7 +360,7 @@ double  value;
       {
         if (mults[j] != -9999) // not trivial
         {
-          for (i = 0;i < ns;i++) {;
+          for (i = 0;i < ns;i++) {
             if (data[(size_t)j * ns + i] != missingvalue) {
               data[(size_t)j * ns + i] =
                   (data[(size_t)j * ns + i] - centres[j]) * mults[j];
@@ -364,7 +370,7 @@ double  value;
           }
         } else // trivial
         {
-          for (i = 0;i < ns;i++) {;
+          for (i = 0;i < ns;i++) {
             data[(size_t)j * ns + i] = 0;
           }
         }
@@ -417,13 +423,13 @@ char  **wantpreds;
     if (count2 < count) {
       printf("Warning, only %d of these are in %s\n", count2, filename);
     }
-    for (j = 0;j < count2;j++) {;
+    for (j = 0;j < count2;j++) {
       usedpreds[indexer[j]]++;
     }
-    for (j = 0;j < length;j++) {;
+    for (j = 0;j < length;j++) {
       usedpreds[j] = (usedpreds[j] == 2);
     }
-    for (j = 0;j < count;j++) {;
+    for (j = 0;j < count;j++) {
       free(wantpreds[j]);
     }
     free(wantpreds);
@@ -448,10 +454,10 @@ char  **wantpreds;
     if (count2 > 0 && count2 < count) {
       printf("Warning, only %d of these are in %s\n", count2, filename);
     }
-    for (j = 0;j < count2;j++) {;
+    for (j = 0;j < count2;j++) {
       usedpreds[indexer[j]] = 0;
     }
-    for (j = 0;j < count;j++) {;
+    for (j = 0;j < count;j++) {
       free(wantpreds[j]);
     }
     free(wantpreds);
@@ -460,7 +466,7 @@ char  **wantpreds;
 
   if (onechr > 0) {
     count = 0;
-    for (j = 0;j < length;j++) {;
+    for (j = 0;j < length;j++) {
       if (chr[j] == onechr) {
         count++;
       } else {
@@ -476,7 +482,7 @@ char  **wantpreds;
   }
   if (onechr == -1) {
     count = 0;
-    for (j = 0;j < length;j++) {;
+    for (j = 0;j < length;j++) {
       if (chr[j] > 0 && chr[j] < 23) {
         count++;
       } else {
@@ -491,7 +497,7 @@ char  **wantpreds;
   }
   if (onechr == -3) {
     count = 0;
-    for (j = 0;j < length;j++) {;
+    for (j = 0;j < length;j++) {
       if (chr[j] > 0 && chr[j] % 2 == 1) {
         count++;
       } else {
@@ -507,7 +513,7 @@ char  **wantpreds;
   }
   if (onechr == -2) {
     count = 0;
-    for (j = 0;j < length;j++) {;
+    for (j = 0;j < length;j++) {
       if (chr[j] > 0 && chr[j] % 2 == 0) {
         count++;
       } else {
@@ -523,7 +529,7 @@ char  **wantpreds;
   }
 
   count = 0;
-  for (j = 0;j < length;j++) {;
+  for (j = 0;j < length;j++) {
     count += usedpreds[j];
   }
   if (count == 0) {
@@ -547,10 +553,10 @@ double  sum;
 
 char  readchar;
 
-  for (j = 0;j < length;j++) {;
+  for (j = 0;j < length;j++) {
     if (encoding == 2) // dominant - switch 1s for 2s
     {
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         if (data[(size_t)j * ns + i] == 1) {
           data[(size_t)j * ns + i] = 2;
         }
@@ -558,7 +564,7 @@ char  readchar;
     }
     if (encoding == 3) // recessive - switch 1s for 0s
     {
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         if (data[(size_t)j * ns + i] == 1) {
           data[(size_t)j * ns + i] = 0;
         }
@@ -566,7 +572,7 @@ char  readchar;
     }
     if (encoding == 4) // heterogeneous - 0/1/2 go to 0/2/0
     {
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         if (data[(size_t)j * ns + i] != missingvalue) {
           data[(size_t)j * ns + i] = 2 * (data[(size_t)j * ns + i] == 1);
         }
@@ -578,7 +584,7 @@ char  readchar;
     {
       sum = 0;
       indcount = 0;
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         if (data[(size_t)j * ns + i] != missingvalue) {
           sum += data[(size_t)j * ns + i];
           indcount++;
@@ -586,7 +592,7 @@ char  readchar;
       }
       if (sum / indcount > 1) // switch
       {
-        for (i = 0;i < ns;i++) {;
+        for (i = 0;i < ns;i++) {
           if (data[(size_t)j * ns + i] != missingvalue) {
             data[(size_t)j * ns + i] = 2 - data[(size_t)j * ns + i];
           }
@@ -598,7 +604,7 @@ char  readchar;
     }
     if (encoding == 6) // missing or not missing
     {
-      for (i = 0;i < ns;i++) {;
+      for (i = 0;i < ns;i++) {
         data[(size_t)j * ns + i] = (data[(size_t)j * ns + i] == missingvalue);
       }
       al1[j] = 'Y';
