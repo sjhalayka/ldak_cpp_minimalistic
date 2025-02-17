@@ -95,6 +95,8 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 #include <time.h>
 #include <unistd.h>
 #include <zlib.h>
+#include <vector>
+using std::vector;
 
 struct sorting_double {
 double  value; 
@@ -106,6 +108,47 @@ int  index;
 };
 
 
+template<class T>
+T*** get_pointer_from_vector(vector<vector<vector<T>>>& input_data, const size_t size_x, const size_t size_y)
+{
+	vector<vector<T*>> ptr_array2(size_x, vector<T*>(size_y));
+	vector<T**> ptr_array1(size_x);
+
+	for (size_t i = 0; i < size_x; i++)
+	{
+		for (size_t j = 0; j < size_y; j++)
+			ptr_array2[i][j] = input_data[i][j].data();
+
+		ptr_array1[i] = ptr_array2[i].data();
+	}
+
+	T*** legacy_ptr = ptr_array1.data();
+
+	return legacy_ptr;
+}
+
+template<class T>
+T** get_pointer_from_vector(vector<vector<T>>& input_data, const size_t size_x)
+{
+	vector<T*> row_ptrs(size_x);
+
+	for (size_t i = 0; i < size_x; i++)
+		row_ptrs[i] = input_data[i].data();
+
+	T** legacy_ptr = row_ptrs.data();
+
+	return legacy_ptr;
+}
+
+template<class T>
+T* get_pointer_from_vector(vector<T>& input_data)
+{
+	T* legacy_ptr = input_data.data();
+
+	return legacy_ptr;
+}
+
+
 #include "mt19937.c"
 #include "norm.c"
 #include "oddsnends.c"
@@ -113,6 +156,8 @@ int  index;
 #include "filedata.c"
 #include "dataops.c"
 #include "filemain.c"
+
+
 
 
 
