@@ -22,6 +22,9 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////// 
 
+#include <memory>
+using namespace std;
+
 void open_datagz(gzFile* inputgz, char* datafile, int num_samples, int genskip,
     int genheaders, int genprobs) {
     int  j;
@@ -164,19 +167,49 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
     int num_samples, int num_preds, int genskip, int genheaders,
     int genprobs, size_t* bgen_indexes, double missingvalue,
     double threshold, double minprob, int nonsnp,
-    int maxthreads) {
+    int maxthreads) 
+{
     int  thread;
     int  threadstart;
     int  threadend;
     int  threadlength;
-    float*** threadprobs;
+ //   float*** threadprobs;
+
+    vector<float> threadprobs_;
+
+    //threadprobs_.resize(maxthreads);
+
+    //threadprobs_.resize(threadprobs_.size() * 2);
+    // 
+    //auto ptr2 = make_unique<float*>(threadprobs_.data());
+    ////auto ptr3 = make_unique<unique_ptr<float*>>(move(ptr2));
+
+    //// These will cause segfault if probs is NULL
+    //ptr2.get()[0] = probs[0] + (size_t)(threadstart - start) * num_samples_use;
+    //ptr2.get()[1] = probs[1] + (size_t)(threadstart - start) * num_samples_use;
+
+    //read_bgen_fly(
+    //    datafile, data + (size_t)(threadstart - start) * num_samples_use,
+    //    ptr2.get(), num_samples_use, keepsamps, threadstart,
+    //    threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
+    //    missingvalue, threshold, minprob);
+
+    //return 0;
+
+
+
+
+
 
     if (dtype == 1 || dtype == 2 || dtype == 3 ||
         dtype == 4) // can read in parallel
     {
         threadlength = (end - start - 1) / maxthreads + 1;
         if (dtype == 2) {
-            threadprobs = malloc(sizeof(float**) * maxthreads);
+
+            //threadprobs = malloc(sizeof(float**) * maxthreads);
+        
+            threadprobs_.resize(maxthreads);
         }
 
 #pragma omp parallel for private(thread, threadstart, threadend)   schedule(static, 1)
@@ -206,17 +239,43 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
                         bgen_indexes, missingvalue, threshold, minprob);
                 }
                 else {
-                    threadprobs[thread] = malloc(sizeof(float*) * 2);
-                    threadprobs[thread][0] =
-                        probs[0] + (size_t)(threadstart - start) * num_samples_use;
-                    threadprobs[thread][1] =
-                        probs[1] + (size_t)(threadstart - start) * num_samples_use;
+                    //threadprobs[thread] = malloc(sizeof(float*) * 2);
+                   
+                    //size_t index0 = thread * threadprobs_.size() + 0;
+                    //size_t index1 = thread * threadprobs_.size() + 1;
+
+                    threadprobs_.resize(threadprobs_.size() * 2);
+
+                    //threadprobs_[thread][0] =
+                    //    probs[0] + (size_t)(threadstart - start) * num_samples_use;
+                    //
+                    //threadprobs_[thread][1] =
+                    //    probs[1] + (size_t)(threadstart - start) * num_samples_use;
+
+                    //const float* ptr1 = &threadprobs_[0];// +column_number * size_x * size_y];
+                    //const float** ptr2 = &ptr1;
+
+                   
+
+                    auto ptr2 = make_unique<float*>(threadprobs_.data());
+                    //auto ptr3 = make_unique<unique_ptr<float*>>(move(ptr2));
+
+                    ptr2.get()[0] = probs[0] + (size_t)(threadstart - start) * num_samples_use;
+                    ptr2.get()[1] = probs[1] + (size_t)(threadstart - start) * num_samples_use;
+
+                    //read_bgen_fly(
+                    //    datafile, data + (size_t)(threadstart - start) * num_samples_use,
+                    //    threadprobs_[index0], num_samples_use, keepsamps, threadstart,
+                    //    threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
+                    //    missingvalue, threshold, minprob);
+
                     read_bgen_fly(
                         datafile, data + (size_t)(threadstart - start) * num_samples_use,
-                        threadprobs[thread], num_samples_use, keepsamps, threadstart,
+                        ptr2.get(), num_samples_use, keepsamps, threadstart,
                         threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
                         missingvalue, threshold, minprob);
-                    free(threadprobs[thread]);
+                    
+                    //free(threadprobs[thread]);
                 }
             }
 
@@ -236,7 +295,7 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
         }
 
         if (dtype == 2) {
-            free(threadprobs);
+           // free(threadprobs);
         }
     }
 

@@ -75,7 +75,7 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 #define MKL   0
    // 1 to compile with mkl, 0 to compile without mkl, 2 to compile with AOCL
 #define MET   0 // 0 for qsopt, 1 for glpk (for glpk, edit compilation line to include
-    // source/glpk.h)
+	// source/glpk.h)
 //(changing MKL changes some lines just below, and a few in defaults.c)
 
 // library includes
@@ -99,54 +99,15 @@ LDAK.  If not, see <http://www.gnu.org/licenses/>.
 using std::vector;
 
 struct sorting_double {
-double  value; 
-int  index; 
+	double  value;
+	int  index;
 };
 struct sorting_string {
-char  *ptr; 
-int  index; 
+	char* ptr;
+	int  index;
 };
 
 
-template<class T>
-T*** get_pointer_from_vector(vector<vector<vector<T>>>& input_data, const size_t size_x, const size_t size_y)
-{
-	vector<vector<T*>> ptr_array2(size_x, vector<T*>(size_y));
-	vector<T**> ptr_array1(size_x);
-
-	for (size_t i = 0; i < size_x; i++)
-	{
-		for (size_t j = 0; j < size_y; j++)
-			ptr_array2[i][j] = input_data[i][j].data();
-
-		ptr_array1[i] = ptr_array2[i].data();
-	}
-
-	T*** legacy_ptr = ptr_array1.data();
-
-	return legacy_ptr;
-}
-
-template<class T>
-T** get_pointer_from_vector(vector<vector<T>>& input_data, const size_t size_x)
-{
-	vector<T*> row_ptrs(size_x);
-
-	for (size_t i = 0; i < size_x; i++)
-		row_ptrs[i] = input_data[i].data();
-
-	T** legacy_ptr = row_ptrs.data();
-
-	return legacy_ptr;
-}
-
-template<class T>
-T* get_pointer_from_vector(vector<T>& input_data)
-{
-	T* legacy_ptr = input_data.data();
-
-	return legacy_ptr;
-}
 
 
 #include "mt19937.c"
@@ -163,51 +124,64 @@ T* get_pointer_from_vector(vector<T>& input_data)
 
 ///////////////////////////
 
-int main(int argc, const char *argv[]) {
-// this line makes the buffer flush
-setlinebuf(stdout);
+int main(int argc, const char* argv[]) {
 
-if (MKL == 0) {
-printf("Please note that this version is not compiled with MKL, which can "
-"result in longer runtimes\n\n");
-}
 
-printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
-"-- -- -- -- -- --\nLDAK - Software for obtaining Linkage "
-"Disequilibrium Adjusted Kinships and Loads More\nVersion 6 - Help "
-"pages at www.dougspeed.com\n");
 
-time_t starttime, endtime, midtime;
-char  timestring[500]; 
+	 //read_data_fly(0, 0, 0, 0, 0, 0,
+		//0, 0, 0, 0, 0,
+		//0, 0, 0, 0, 0,
+		//0, 0, 0, 0,
+		//0, 0);
 
-// get start time, then convert to a string (and remove \n from end)
-time(&starttime);
-sprintf(timestring, "%s", ctime(&starttime));
-timestring[strlen(timestring) - 1] = '\0';
 
-printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
-"-- -- -- -- -- --\n\n");
 
-if (sizeof(unsigned char) != 1 || sizeof(unsigned short) != 2 ||
-sizeof(unsigned int) != 4 || sizeof(int) != 4 || sizeof(float) != 4 ||
-sizeof(double) != 8 || sizeof(size_t) != 8) {
-printf("Error, this compilation uses %zd / %zd / %zd / %zd / %zd / %zd / "
-"%zd bytes to save an unsigned char / unsigned short / unsigned "
-"integer / integer / float / double / size_t (LDAK requires 1 / 2 / "
-"4 / 4 / 4 / 8 / 8, respectively)\n",
-sizeof(unsigned char), sizeof(unsigned short), sizeof(unsigned int),
-sizeof(int), sizeof(float), sizeof(double), sizeof(size_t));
-exit(1);
-}
 
-if (sizeof(Bytef) != 1) {
-printf("Error, this compilation uses %zd bytes to save the zlib data type "
-"Bytef (LDAK requires this data type has size one byte)\n\n",
-sizeof(Bytef));
-exit(1);
-}
 
-// declare variables
+	// this line makes the buffer flush
+	setlinebuf(stdout);
+
+	if (MKL == 0) {
+		printf("Please note that this version is not compiled with MKL, which can "
+			"result in longer runtimes\n\n");
+	}
+
+	printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
+		"-- -- -- -- -- --\nLDAK - Software for obtaining Linkage "
+		"Disequilibrium Adjusted Kinships and Loads More\nVersion 6 - Help "
+		"pages at www.dougspeed.com\n");
+
+	time_t starttime, endtime, midtime;
+	char  timestring[500];
+
+	// get start time, then convert to a string (and remove \n from end)
+	time(&starttime);
+	sprintf(timestring, "%s", ctime(&starttime));
+	timestring[strlen(timestring) - 1] = '\0';
+
+	printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
+		"-- -- -- -- -- --\n\n");
+
+	if (sizeof(unsigned char) != 1 || sizeof(unsigned short) != 2 ||
+		sizeof(unsigned int) != 4 || sizeof(int) != 4 || sizeof(float) != 4 ||
+		sizeof(double) != 8 || sizeof(size_t) != 8) {
+		printf("Error, this compilation uses %zd / %zd / %zd / %zd / %zd / %zd / "
+			"%zd bytes to save an unsigned char / unsigned short / unsigned "
+			"integer / integer / float / double / size_t (LDAK requires 1 / 2 / "
+			"4 / 4 / 4 / 8 / 8, respectively)\n",
+			sizeof(unsigned char), sizeof(unsigned short), sizeof(unsigned int),
+			sizeof(int), sizeof(float), sizeof(double), sizeof(size_t));
+		exit(1);
+	}
+
+	if (sizeof(Bytef) != 1) {
+		printf("Error, this compilation uses %zd bytes to save the zlib data type "
+			"Bytef (LDAK requires this data type has size one byte)\n\n",
+			sizeof(Bytef));
+		exit(1);
+	}
+
+	// declare variables
 #include "declare.c"
 
 // deal with command line arguments (come in pairs)
@@ -235,335 +209,353 @@ exit(1);
 
 ///////////////////////////
 
-if (use_data != 5) // get num_samples_use, and get size of data
-{
+	if (use_data != 5) // get num_samples_use, and get size of data
+	{
 #include "getnums.c"
 
-if (use_data == 1) // using data (normally)
-{
-printf("Data contain %d samples and %d predictors (will be using %d and "
-"%d)\n\n",
-num_samples, num_preds, num_samples_use, num_preds_use);
-}
-}
+		if (use_data == 1) // using data (normally)
+		{
+			printf("Data contain %d samples and %d predictors (will be using %d and "
+				"%d)\n\n",
+				num_samples, num_preds, num_samples_use, num_preds_use);
+		}
+	}
 
-if (use_data == 1 ||
-use_data == 6) // reduce predictors to data_length and keeppreds_use
-{
+	if (use_data == 1 ||
+		use_data == 6) // reduce predictors to data_length and keeppreds_use
+	{
 #include "setdl.c"
-}
+	}
 
-////////
+	////////
 
-if (use_data == 1 || use_data == 6) //(normal case) sort scalings and pvalues,
-//perhaps reduce, then sort summaries
-{
-// some of these allocations are unnecessary (especially for use_data=6)
-centres = malloc(sizeof(double) * data_length);
-mults = malloc(sizeof(double) * data_length);
-sqdevs = malloc(sizeof(double) * data_length);
-rates = malloc(sizeof(double) * data_length);
-infos = malloc(sizeof(double) * data_length);
-weights = malloc(sizeof(double) * data_length);
-pvalues = malloc(sizeof(double) * data_length);
+	if (use_data == 1 || use_data == 6) //(normal case) sort scalings and pvalues,
+		//perhaps reduce, then sort summaries
+	{
+		// some of these allocations are unnecessary (especially for use_data=6)
+		centres = malloc(sizeof(double) * data_length);
+		mults = malloc(sizeof(double) * data_length);
+		sqdevs = malloc(sizeof(double) * data_length);
+		rates = malloc(sizeof(double) * data_length);
+		infos = malloc(sizeof(double) * data_length);
+		weights = malloc(sizeof(double) * data_length);
+		pvalues = malloc(sizeof(double) * data_length);
 
-for (j = 0;j < data_length;j++) {;
-centres[j] = -9999;
-mults[j] = -9999;
-sqdevs[j] = -9999;
-rates[j] = -9999;
-infos[j] = -9999;
-weights[j] = 1;
-pvalues[j] = 2;
-}
-}
+		for (j = 0; j < data_length; j++) {
+			;
+			centres[j] = -9999;
+			mults[j] = -9999;
+			sqdevs[j] = -9999;
+			rates[j] = -9999;
+			infos[j] = -9999;
+			weights[j] = 1;
+			pvalues[j] = 2;
+		}
+	}
 
-if (mode == 171) // calc-stats
-{
+	if (mode == 171) // calc-stats
+	{
 #include "stats.c"
-}
+	}
 
-// datafile, kinships and resp allocations (from parsefiles.c and top of
-// ldak.c)
+	// datafile, kinships and resp allocations (from parsefiles.c and top of
+	// ldak.c)
 
-if (use_data == 1 || use_data == 2 || use_data == 3 || use_data == 4 ||
-use_data == 5) {
-for (k = 0;k < num_files;k++) {;
-free(datastems[k]);
-free(bimstems[k]);
-free(famstems[k]);
-}
-free(datastems);
-free(bimstems);
-free(famstems);
-}
+	if (use_data == 1 || use_data == 2 || use_data == 3 || use_data == 4 ||
+		use_data == 5) {
+		for (k = 0; k < num_files; k++) {
+			;
+			free(datastems[k]);
+			free(bimstems[k]);
+			free(famstems[k]);
+		}
+		free(datastems);
+		free(bimstems);
+		free(famstems);
+	}
 
-if (num_kins > 0) {
-for (k = 0;k < num_kins;k++) {;
-free(kinstems[k]);
-}
-free(kinstems);
-free(kinnums);
-free(kinsums);
+	if (num_kins > 0) {
+		for (k = 0; k < num_kins; k++) {
+			;
+			free(kinstems[k]);
+		}
+		free(kinstems);
+		free(kinnums);
+		free(kinsums);
 
-if (mode == 120 || mode == 121 || mode == 123 || mode == 124 ||
-mode == 126 || mode == 131 || mode == 133 || mode == 138) {
-if (mode == 120 || mode == 123 || mode == 124 || mode == 126) {
-if (memsave == 0) {
-for (k = 0;k < num_kins;k++) {;
-free(Mkins_single[k]);
-}
-}
-free(Mkins_single);
-} else {
-if (memsave == 0) {
-for (k = 0;k < num_kins;k++) {;
-free(Mkins[k]);
-}
-}
-free(Mkins);
-}
-free(kintraces);
-}
-}
+		if (mode == 120 || mode == 121 || mode == 123 || mode == 124 ||
+			mode == 126 || mode == 131 || mode == 133 || mode == 138) {
+			if (mode == 120 || mode == 123 || mode == 124 || mode == 126) {
+				if (memsave == 0) {
+					for (k = 0; k < num_kins; k++) {
+						;
+						free(Mkins_single[k]);
+					}
+				}
+				free(Mkins_single);
+			}
+			else {
+				if (memsave == 0) {
+					for (k = 0; k < num_kins; k++) {
+						;
+						free(Mkins[k]);
+					}
+				}
+				free(Mkins);
+			}
+			free(kintraces);
+		}
+	}
 
-if (num_resps_use > 0) {
-free(keepresps);
-free(resp);
-free(respcounts);
-}
-if (mode == 229 || mode == 230) {
-free(keepresps2);
-free(resp2);
-free(respcounts2);
-}
+	if (num_resps_use > 0) {
+		free(keepresps);
+		free(resp);
+		free(respcounts);
+	}
+	if (mode == 229 || mode == 230) {
+		free(keepresps2);
+		free(resp2);
+		free(respcounts2);
+	}
 
-// more allocations from parsefiles.c
+	// more allocations from parsefiles.c
 
-if (strcmp(covarfile, "blank") != 0) {
-free(keepcovars);
-}
+	if (strcmp(covarfile, "blank") != 0) {
+		free(keepcovars);
+	}
 
-if (strcmp(povarfile, "blank") != 0) {
-free(chrindex3);
-}
+	if (strcmp(povarfile, "blank") != 0) {
+		free(chrindex3);
+	}
 
-if (strcmp(oversfile, "blank") != 0) {
-for (k = 0;k < num_kins;k++) {;
-free(ssums[k]);
-}
-free(ssums);
-}
+	if (strcmp(oversfile, "blank") != 0) {
+		for (k = 0; k < num_kins; k++) {
+			;
+			free(ssums[k]);
+		}
+		free(ssums);
+	}
 
-if (strcmp(taglist, "blank") != 0 || strcmp(pathlist, "blank") != 0) {
-for (k = 0;k < num_tags;k++) {;
-free(tagstems[k]);
-}
-free(tagstems);
-}
+	if (strcmp(taglist, "blank") != 0 || strcmp(pathlist, "blank") != 0) {
+		for (k = 0; k < num_tags; k++) {
+			;
+			free(tagstems[k]);
+		}
+		free(tagstems);
+	}
 
-if (strcmp(matlist, "blank") != 0) {
-for (k = 0;k < num_tags;k++) {;
-free(matstems[k]);
-}
-free(matstems);
-}
+	if (strcmp(matlist, "blank") != 0) {
+		for (k = 0; k < num_tags; k++) {
+			;
+			free(matstems[k]);
+		}
+		free(matstems);
+	}
 
-if (strcmp(catfile, "blank") != 0) {
-free(keepparts);
-free(keepparts2);
-}
+	if (strcmp(catfile, "blank") != 0) {
+		free(keepparts);
+		free(keepparts2);
+	}
 
-if (strcmp(corslist, "blank") != 0) {
-for (k = 0;k < num_cors;k++) {;
-free(corstems[k]);
-}
-free(corstems);
-}
+	if (strcmp(corslist, "blank") != 0) {
+		for (k = 0; k < num_cors; k++) {
+			;
+			free(corstems[k]);
+		}
+		free(corstems);
+	}
 
-// allocations from getnums.c
+	// allocations from getnums.c
 
-if (strcmp(idsfile, "blank") != 0) {
-for (i = 0;i < num_samples_use;i++) {;
-free(ids1[i]);
-free(ids2[i]);
-free(ids3[i]);
-}
-free(ids1);
-free(ids2);
-free(ids3);
+	if (strcmp(idsfile, "blank") != 0) {
+		for (i = 0; i < num_samples_use; i++) {
+			;
+			free(ids1[i]);
+			free(ids2[i]);
+			free(ids3[i]);
+		}
+		free(ids1);
+		free(ids2);
+		free(ids3);
 
-if (num_subs > 0) {
-for (s = 0;s < num_subs;s++) {;
-free(subindex[s]);
-}
-free(subindex);
-}
+		if (num_subs > 0) {
+			for (s = 0; s < num_subs; s++) {
+				;
+				free(subindex[s]);
+			}
+			free(subindex);
+		}
 
-if (use_data == 1 || use_data == 2 || use_data == 4) {
-free(keepsamps);
-}
-}
+		if (use_data == 1 || use_data == 2 || use_data == 4) {
+			free(keepsamps);
+		}
+	}
 
-if (use_data == 1 || use_data == 2 || use_data == 3 || use_data == 6) {
-if (dtype == 2) {
-free(bgen_indexes);
-}
-free(allchr);
-free(allcm);
-free(allbp);
-free(allal1);
-free(allal2);
-for (j = 0;j < num_preds;j++) {;
-free(allpreds[j]);
-free(allalong1[j]);
-free(allalong2[j]);
-}
-free(allpreds);
-free(allalong1);
-free(allalong2);
-free(predorder);
-free(keeppreds);
-}
+	if (use_data == 1 || use_data == 2 || use_data == 3 || use_data == 6) {
+		if (dtype == 2) {
+			free(bgen_indexes);
+		}
+		free(allchr);
+		free(allcm);
+		free(allbp);
+		free(allal1);
+		free(allal2);
+		for (j = 0; j < num_preds; j++) {
+			;
+			free(allpreds[j]);
+			free(allalong1[j]);
+			free(allalong2[j]);
+		}
+		free(allpreds);
+		free(allalong1);
+		free(allalong2);
+		free(predorder);
+		free(keeppreds);
+	}
 
-// global allocations from setdl.c - will have done mode-specific ones above
+	// global allocations from setdl.c - will have done mode-specific ones above
 
-if (use_data == 1 || use_data == 6) {
-free(keeppreds_use);
-free(chr);
-free(cm);
-free(bp);
-free(cmbp);
-free(al1);
-free(al2);
-for (j = 0;j < data_length;j++) {;
-free(preds[j]);
-free(along1[j]);
-free(along2[j]);
-}
-free(preds);
-free(along1);
-free(along2);
-}
+	if (use_data == 1 || use_data == 6) {
+		free(keeppreds_use);
+		free(chr);
+		free(cm);
+		free(bp);
+		free(cmbp);
+		free(al1);
+		free(al2);
+		for (j = 0; j < data_length; j++) {
+			;
+			free(preds[j]);
+			free(along1[j]);
+			free(along2[j]);
+		}
+		free(preds);
+		free(along1);
+		free(along2);
+	}
 
-// top predictors and regions (from top of ldak.c)
+	// top predictors and regions (from top of ldak.c)
 
-if (strcmp(topfile, "blank") != 0) {
-free(tkeeppreds);
-free(tchr);
-free(tbp);
-free(tal1);
-free(tal2);
-for (j = 0;j < num_tops;j++) {;
-free(tpreds[j]);
-}
-free(tpreds);
-free(tcentres);
-free(tvars);
-if (strcmp(sumsfile, "blank") != 0) {
-free(tnss);
-free(tchis);
-free(trhos);
-}
-}
+	if (strcmp(topfile, "blank") != 0) {
+		free(tkeeppreds);
+		free(tchr);
+		free(tbp);
+		free(tal1);
+		free(tal2);
+		for (j = 0; j < num_tops; j++) {
+			;
+			free(tpreds[j]);
+		}
+		free(tpreds);
+		free(tcentres);
+		free(tvars);
+		if (strcmp(sumsfile, "blank") != 0) {
+			free(tnss);
+			free(tchis);
+			free(trhos);
+		}
+	}
 
-if (num_regs > 0) {
-free(rkeeppreds);
-for (r = 0;r < num_regs;r++) {;
-free(regindex[r]);
-}
-free(regindex);
-free(ral1);
-free(ral2);
-for (j = 0;j < rnum_preds_use;j++) {;
-free(rpreds[j]);
-}
-free(rpreds);
-free(rcentres);
-free(rmults);
-free(rsqdevs);
-free(rrates);
-free(rinfos);
-free(rweights);
-if (strcmp(sumsfile, "blank") != 0) {
-free(rnss);
-free(rchis);
-free(rrhos);
-}
-free(rdata);
-}
+	if (num_regs > 0) {
+		free(rkeeppreds);
+		for (r = 0; r < num_regs; r++) {
+			;
+			free(regindex[r]);
+		}
+		free(regindex);
+		free(ral1);
+		free(ral2);
+		for (j = 0; j < rnum_preds_use; j++) {
+			;
+			free(rpreds[j]);
+		}
+		free(rpreds);
+		free(rcentres);
+		free(rmults);
+		free(rsqdevs);
+		free(rrates);
+		free(rinfos);
+		free(rweights);
+		if (strcmp(sumsfile, "blank") != 0) {
+			free(rnss);
+			free(rchis);
+			free(rrhos);
+		}
+		free(rdata);
+	}
 
-// more allocations from top of ldak.c
+	// more allocations from top of ldak.c
 
-if (mode == 131 && (families == 1 || trios == 1 || duos != 0)) {
-free(famindex);
-free(famcounts);
-}
+	if (mode == 131 && (families == 1 || trios == 1 || duos != 0)) {
+		free(famindex);
+		free(famcounts);
+	}
 
-if (use_data == 1 || use_data == 6) {
-free(centres);
-free(mults);
-free(sqdevs);
-free(rates);
-free(infos);
-free(weights);
-free(pvalues);
-if (strcmp(sumsfile, "blank") != 0) {
-free(nss);
-free(chis);
-free(rhos);
-free(a1freq);
-}
-}
+	if (use_data == 1 || use_data == 6) {
+		free(centres);
+		free(mults);
+		free(sqdevs);
+		free(rates);
+		free(infos);
+		free(weights);
+		free(pvalues);
+		if (strcmp(sumsfile, "blank") != 0) {
+			free(nss);
+			free(chis);
+			free(rhos);
+			free(a1freq);
+		}
+	}
 
-if (mode == 121 || mode == 122 || mode == 123 || mode == 124 || mode == 125 ||
-mode == 126 || mode == 127 || mode == 128 || mode == 129 || mode == 130 ||
-mode == 229 || mode == 230 || mode == 131 || mode == 132 || mode == 133 ||
-mode == 138 || mode == 140 || mode == 151 || mode == 152 || mode == 153 ||
-mode == 154 || mode == 156 || mode == 164 || mode == 169 || mode == 170 ||
-mode == 172 || mode == 173 || mode == 175 || mode == 194) {
-free(covar);
-}
+	if (mode == 121 || mode == 122 || mode == 123 || mode == 124 || mode == 125 ||
+		mode == 126 || mode == 127 || mode == 128 || mode == 129 || mode == 130 ||
+		mode == 229 || mode == 230 || mode == 131 || mode == 132 || mode == 133 ||
+		mode == 138 || mode == 140 || mode == 151 || mode == 152 || mode == 153 ||
+		mode == 154 || mode == 156 || mode == 164 || mode == 169 || mode == 170 ||
+		mode == 172 || mode == 173 || mode == 175 || mode == 194) {
+		free(covar);
+	}
 
-if (mode == 132) {
-free(offsets);
-}
+	if (mode == 132) {
+		free(offsets);
+	}
 
-if (strcmp(cofile, "blank") != 0) {
-free(thetas);
-}
+	if (strcmp(cofile, "blank") != 0) {
+		free(thetas);
+	}
 
-if (num_kins == 1 &&
-((mode == 121 && shortcut == 1) || mode == 131 || mode == 138)) {
-free(U);
-free(E);
-}
+	if (num_kins == 1 &&
+		((mode == 121 && shortcut == 1) || mode == 131 || mode == 138)) {
+		free(U);
+		free(E);
+	}
 
-///////////////////////////
+	///////////////////////////
 
-printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
-"-- -- -- -- -- --\n\n");
+	printf("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
+		"-- -- -- -- -- --\n\n");
 
-time(&endtime);
-printf("This command started at %s and ended at %s", timestring,
-ctime(&endtime));
-printf("The elapsed time was %.2f hours\n",
-(double)(endtime - starttime) / 60 / 60);
-if (maxthreads == 1) {
-printf("Given the command used one thread, this means the CPU time was "
-"also %.2f hours\n",
-(double)(endtime - starttime) / 60 / 60);
-} else {
-printf("Given the command used %d threads, this means the CPU time was "
-"%.2f hours\n\n",
-maxthreads, (double)(endtime - starttime) / 60 / 60 * maxthreads);
-}
+	time(&endtime);
+	printf("This command started at %s and ended at %s", timestring,
+		ctime(&endtime));
+	printf("The elapsed time was %.2f hours\n",
+		(double)(endtime - starttime) / 60 / 60);
+	if (maxthreads == 1) {
+		printf("Given the command used one thread, this means the CPU time was "
+			"also %.2f hours\n",
+			(double)(endtime - starttime) / 60 / 60);
+	}
+	else {
+		printf("Given the command used %d threads, this means the CPU time was "
+			"%.2f hours\n\n",
+			maxthreads, (double)(endtime - starttime) / 60 / 60 * maxthreads);
+	}
 
-printf("Mission completed. All your basepair are belong to us :)\n\n-- -- -- "
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
-"-- -- --\n\n");
+	printf("Mission completed. All your basepair are belong to us :)\n\n-- -- -- "
+		"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "
+		"-- -- --\n\n");
 
-return (0);
+	return (0);
 } // end of main
 
 ///////////////////////////
