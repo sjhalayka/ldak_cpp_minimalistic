@@ -177,29 +177,7 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
 
     vector<float> threadprobs_;
 
-    //threadprobs_.resize(maxthreads);
-
-    //threadprobs_.resize(threadprobs_.size() * 2);
-    // 
-    //auto ptr2 = make_unique<float*>(threadprobs_.data());
-    ////auto ptr3 = make_unique<unique_ptr<float*>>(move(ptr2));
-
-    //// These will cause segfault if probs is NULL
-    //ptr2.get()[0] = probs[0] + (size_t)(threadstart - start) * num_samples_use;
-    //ptr2.get()[1] = probs[1] + (size_t)(threadstart - start) * num_samples_use;
-
-    //read_bgen_fly(
-    //    datafile, data + (size_t)(threadstart - start) * num_samples_use,
-    //    ptr2.get(), num_samples_use, keepsamps, threadstart,
-    //    threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
-    //    missingvalue, threshold, minprob);
-
-    //return 0;
-
-
-
-
-
+    threadprobs_.resize(maxthreads*2);
 
     if (dtype == 1 || dtype == 2 || dtype == 3 ||
         dtype == 4) // can read in parallel
@@ -208,8 +186,6 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
         if (dtype == 2) {
 
             //threadprobs = malloc(sizeof(float**) * maxthreads);
-        
-            threadprobs_.resize(maxthreads);
         }
 
 #pragma omp parallel for private(thread, threadstart, threadend)   schedule(static, 1)
@@ -240,34 +216,11 @@ int read_data_fly(char* datafile, int dtype, double* data, float** probs,
                 }
                 else {
                     //threadprobs[thread] = malloc(sizeof(float*) * 2);
-                   
-                    //size_t index0 = thread * threadprobs_.size() + 0;
-                    //size_t index1 = thread * threadprobs_.size() + 1;
-
-                    threadprobs_.resize(threadprobs_.size() * 2);
-
-                    //threadprobs_[thread][0] =
-                    //    probs[0] + (size_t)(threadstart - start) * num_samples_use;
-                    //
-                    //threadprobs_[thread][1] =
-                    //    probs[1] + (size_t)(threadstart - start) * num_samples_use;
-
-                    //const float* ptr1 = &threadprobs_[0];// +column_number * size_x * size_y];
-                    //const float** ptr2 = &ptr1;
-
-                   
 
                     auto ptr2 = make_unique<float*>(threadprobs_.data());
-                    //auto ptr3 = make_unique<unique_ptr<float*>>(move(ptr2));
 
                     ptr2.get()[0] = probs[0] + (size_t)(threadstart - start) * num_samples_use;
                     ptr2.get()[1] = probs[1] + (size_t)(threadstart - start) * num_samples_use;
-
-                    //read_bgen_fly(
-                    //    datafile, data + (size_t)(threadstart - start) * num_samples_use,
-                    //    threadprobs_[index0], num_samples_use, keepsamps, threadstart,
-                    //    threadend, keeppreds_use, num_samples, num_preds, bgen_indexes,
-                    //    missingvalue, threshold, minprob);
 
                     read_bgen_fly(
                         datafile, data + (size_t)(threadstart - start) * num_samples_use,
